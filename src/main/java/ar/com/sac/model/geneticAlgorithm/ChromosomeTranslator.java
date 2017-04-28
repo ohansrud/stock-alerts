@@ -19,12 +19,12 @@ public class ChromosomeTranslator {
          //Set up gene builders
          buyExpressionGenesBuilders.add( new EMAGenesBuilder() );
          buyExpressionGenesBuilders.add( new StochasticGenesBuilder() );
-         buyExpressionGenesBuilders.add( new MACDGenesBuilder() );
+//         buyExpressionGenesBuilders.add( new MACDGenesBuilder() );
          
          
          sellExpressionGenesBuilders.add( new EMAGenesBuilder() );
          sellExpressionGenesBuilders.add( new StochasticGenesBuilder() );
-         sellExpressionGenesBuilders.add( new MACDGenesBuilder() );
+//         sellExpressionGenesBuilders.add( new MACDGenesBuilder() );
          sellExpressionGenesBuilders.add( new OperationPerformancePercentageGenesBuilder() );
          setIndexes();
       }

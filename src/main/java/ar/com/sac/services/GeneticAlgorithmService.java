@@ -61,7 +61,7 @@ public class GeneticAlgorithmService {
       
       long startTime = System.currentTimeMillis(); 
       for (int i = 0; i < parameters.getNumberOfEvolutions(); i++) {
-//          printGeneration(i, population, chromosomeTranslator);
+          printGeneration(i, population, chromosomeTranslator);
           population.evolve(); 
       } 
       long endTime = System.currentTimeMillis(); 
@@ -69,9 +69,9 @@ public class GeneticAlgorithmService {
 
       IChromosome bestSolution = population.getFittestChromosome();
       System.out.println("--------------------------");
-      System.out.println( "Best Performance: $" + bestSolution.getFitnessValue() );
       System.out.println("Best buy Expression: " + chromosomeTranslator.getBuyExpression( bestSolution ));
       System.out.println("Best sell Expression: " + chromosomeTranslator.getSellExpression( bestSolution ));
+      System.out.println( "Best Performance: $" + bestSolution.getFitnessValue() );
       
       GeneticAlgorithmResults results = new GeneticAlgorithmResults();
       results.setTotalTime( endTime - startTime );
@@ -84,20 +84,20 @@ public class GeneticAlgorithmService {
 
    private void printGeneration( int iteration, Genotype population, ChromosomeTranslator chromosomeTranslator) {
       System.out.println("------------Generation " + iteration +"--------------");
-      System.out.println( "Population: " );
-      int i = 1;
-      for(IChromosome chromosome : population.getPopulation().getChromosomes()){
-         System.out.println( "Chromosome number " + i + " :" );
-         System.out.println( "Performance: $" + chromosome.getFitnessValue() );
-         System.out.println("Buy Expression: " + chromosomeTranslator.getBuyExpression( chromosome ));
-         System.out.println("Sell Expression: " + chromosomeTranslator.getSellExpression( chromosome ));
-         i++;
-      }
+//      System.out.println( "Population: " );
+//      int i = 1;
+//      for(IChromosome chromosome : population.getPopulation().getChromosomes()){
+//         System.out.println( "Chromosome number " + i + " :" );
+//         System.out.println("Buy Expression: " + chromosomeTranslator.getBuyExpression( chromosome ));
+//         System.out.println("Sell Expression: " + chromosomeTranslator.getSellExpression( chromosome ));
+//         System.out.println( "Performance: $" + chromosome.getFitnessValue() );
+//         i++;
+//      }
       IChromosome bestSolution = population.getFittestChromosome();
       System.out.println( "\nBest Chromosome in Population: " );
-      System.out.println( "Best Performance: $" + bestSolution.getFitnessValue() );
       System.out.println("Best buy Expression: " + chromosomeTranslator.getBuyExpression( bestSolution ));
       System.out.println("Best sell Expression: " + chromosomeTranslator.getSellExpression( bestSolution ));
+      System.out.println( "Best Performance: $" + bestSolution.getFitnessValue() );
    }
    
    

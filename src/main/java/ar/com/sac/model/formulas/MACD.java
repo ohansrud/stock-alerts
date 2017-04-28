@@ -19,6 +19,9 @@ public class MACD implements Formula {
 
    @Override
    public BigDecimal calculate() {
+      if(fastPeriod >= slowPeriod){
+         return new BigDecimal(0d);
+      }
       BigDecimal emaFast = new ExponentialMovingAverage( fastPeriod, quotes ).calculate();
       BigDecimal emaSlow = new ExponentialMovingAverage( slowPeriod, quotes ).calculate();
       return emaFast.subtract( emaSlow );
