@@ -98,7 +98,7 @@ public class StockService implements IStockService{
       } catch (IOException e) {
          e.printStackTrace();
       }
-      return resultMap;
+      return quoteDAO.findByRangeInBulk( symbols, from, to );
    }
 
    private boolean needToUpdateDB( Map<String, List<Quote>> resultMap ) {
