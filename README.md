@@ -68,6 +68,11 @@ Configure your financial alerts from your favorite stock market and receive noti
   * Returns all ticker symbols loaded in database
 * POST /stock-alerts/stocks/import/csv?symbol=GOOGL
   * Import a csv file with historical quotes in a parameter called "content_file"
+* GET /stock-alerts/stocks/daily_update
+  * Update all Stocks values in database with last quote
+* DELETE /stock-alerts/stocks/GOOGL
+  * Removes all stock information about a ticker
+  
 
 #### Formulas
 * GET /stock-alerts/formulas/price?symbol=GOOGL
@@ -134,6 +139,11 @@ Configure your financial alerts from your favorite stock market and receive noti
 * POST /stock-alerts/simulator
   * Run a new Simulation
   * Passing a JSON representation of a "Simulator Parameters" object as body
+  
+#### Genetic Algorithm
+* POST /genetic-algorithm
+  * Run a Genetic Algorithm looking for good expressions to buy and sell
+  * Passing a JSON representation of a "Genetic Algorithm Parameters" object as body
 
 ## Alert object structure
 * __id__ = An alert identifier. For example: GOOGLE1
@@ -183,6 +193,9 @@ Configure your financial alerts from your favorite stock market and receive noti
    "previousDaysOfAnalysis": 365
 }
 ```
+
+## Genetic Algorithm
+Soon
 
 ## Special Thanks
 * Alejandro Curci
