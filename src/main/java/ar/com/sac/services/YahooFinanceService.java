@@ -28,20 +28,8 @@ public class YahooFinanceService {
     * @return
     * @throws IOException
     */
-   public List<HistoricalQuote> getHistory( String symbol ) throws IOException{
-      Stock stock = YahooFinance.get( symbol );
-      return stock.getHistory( Interval.DAILY );
-   }
-   
-   /**
-    * Returns a year of daily quotes in DESC order. It doesn't retrieve the last price
-    * @param symbol
-    * @return
-    * @throws IOException
-    */
    public List<HistoricalQuote> getHistory( String symbol, Calendar from, Calendar to ) throws IOException{
-      Stock stock = YahooFinance.get( symbol, from, to, Interval.DAILY );
-      return stock.getHistory( from, to, Interval.DAILY );
+      return getHistory( new String[]{ symbol }, from, to ).get( symbol );
    }
    
    /**
@@ -53,7 +41,7 @@ public class YahooFinanceService {
     * @throws IOException
     */
    public Map<String, List<HistoricalQuote>> getHistory( String[] symbols, Calendar from, Calendar to ) throws IOException{
-      Map<String, Stock> map = YahooFinance.get( symbols, from, to, Interval.DAILY );
+      Map<String, Stock> map = YahooFinance.get( symbols );
       Map<String, List<HistoricalQuote>> resultMap = new HashMap<String, List<HistoricalQuote>>();
       for(String symbol : symbols){
          Stock stock = map.get( symbol );
