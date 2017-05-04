@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
 @RestController
-@RequestMapping("/geneticAlgorithm")
+@RequestMapping("/genetic-algorithm")
 public class GeneticAlgorithmController {
       
       @Autowired
@@ -22,6 +22,6 @@ public class GeneticAlgorithmController {
       @RequestMapping(method = RequestMethod.POST)
       public ResponseEntity<GeneticAlgorithmResults> runGeneticAlgorithm( ) throws Exception {
          GeneticAlgorithmParameters parameters = new GeneticAlgorithmParameters();
-         return new ResponseEntity<GeneticAlgorithmResults>( geneticAlgorithmService.runGeneticAlgorithm( parameters  ), HttpStatus.OK );
+         return new ResponseEntity<GeneticAlgorithmResults>( geneticAlgorithmService.runGeneticAlgorithm( parameters ), HttpStatus.OK );
       }
 }

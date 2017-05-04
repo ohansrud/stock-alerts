@@ -10,8 +10,8 @@ public class GeneticAlgorithmParameters {
 
    public GeneticAlgorithmParameters(){
       simulatorParameters = SimulatorParameters.createDefault();
-      populationSize = 100;
-      numberOfEvolutions = 1000;
+      populationSize = 10;
+      numberOfEvolutions = 10;
    }
    /**
     * @return the simulatorParameters

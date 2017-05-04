@@ -26,4 +26,6 @@ public interface IStockService {
    
    public void updateDBJob();
 
+   public void deleteStock( String symbol );
+
 }

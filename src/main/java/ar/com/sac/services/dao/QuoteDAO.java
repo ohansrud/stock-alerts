@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
@@ -52,6 +53,14 @@ public class QuoteDAO extends AbstractDAO<Quote, QuoteId> {
          map.put( quote.getSymbol(), internalList );
       }
       internalList.add( quote );
+   }
+
+   public void removeQuotes( String symbol ) {
+      String queryStr = "DELETE From Quote q";
+      queryStr += " WHERE q.id.symbol = :symbol" ;
+      Query query = getEntityManager().createQuery(queryStr);
+      query.setParameter( "symbol", symbol );
+      query.executeUpdate();
    }
    
 }

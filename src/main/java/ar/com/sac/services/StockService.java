@@ -38,10 +38,11 @@ public class StockService implements IStockService{
    private Boolean usingDB;
 
    public IStockWrapper getStock( String symbol ) throws IOException{
-      return new StockWrapper( yahooFinanceService.getStock( symbol ) );
+      return new StockWrapper( yahooFinanceService.getStock( normalizeSymbol( symbol ) ) );
    }
    
    public Map<String,IStockWrapper> getStocks( String[] symbols ) throws IOException{
+      normalizeSymbols( symbols );
       Map<String,IStockWrapper> resultMap = new HashMap<>();
       Map<String, Stock> yahooMap = yahooFinanceService.getStocks( symbols );
       for(String symbol :  yahooMap.keySet()){
@@ -60,35 +61,77 @@ public class StockService implements IStockService{
    }
    
    public List<Quote> getHistory( String symbol, Calendar from, Calendar to ) throws IOException{
-      List<Quote> quotes = quoteDAO.findByRange( symbol, from, to );
-      
-      if( usingDB ){
-         quotes = quoteDAO.findByRange( symbol, from, to );
-      }else{
-         List<HistoricalQuote> history = yahooFinanceService.getHistory( symbol, from, to );
-         quotes = historyToQuotes( history );
-      }
-
-      //take the last quote from current day
-      Quote todayQuote = new Quote(yahooFinanceService.getStock( symbol ).getQuote());
-      if(quotes.size() == 0 || quotes.get( 0 ).getDate().get( Calendar.DATE ) != todayQuote.getDate().get( Calendar.DATE )){
-         quotes.add( 0, todayQuote );
-      }
-      
-      return quotes;
+      return getHistory( new String[]{ normalizeSymbol( symbol )}, from, to ).get( symbol );
    }
    
    public  Map<String, List<Quote>> getHistory( String[] symbols, Calendar from, Calendar to ) throws IOException{
+      normalizeSymbols( symbols );
       Map<String, List<Quote>> resultMap = new HashMap<>();
       if( usingDB ){
          resultMap = quoteDAO.findByRangeInBulk( symbols, from, to );
-      }else{
-         Map<String, List<HistoricalQuote>> historyMap = yahooFinanceService.getHistory( symbols, from, to );
-         for( String symbol : historyMap.keySet() ){
-            resultMap.put( symbol, historyToQuotes( historyMap.get( symbol ) ));
+         if( needToUpdateDB( resultMap ) ){
+            resultMap = autoLoadDB( symbols, from, to );
          }
+      }else{
+         fillHistoryFromYahooService( symbols, from, to, resultMap );
+      }
+      
+      return resultMap;
+   }
+
+   private void fillHistoryFromYahooService( String[] symbols, Calendar from, Calendar to,
+                                             Map<String, List<Quote>> resultMap ) throws IOException {
+      Map<String, List<HistoricalQuote>> historyMap = yahooFinanceService.getHistory( symbols, from, to );
+      for( String symbol : historyMap.keySet() ){
+         resultMap.put( symbol, historyToQuotes( historyMap.get( symbol ) ));
+      }
+      addLastQuote( symbols, resultMap );
+   }
+
+   private Map<String, List<Quote>> autoLoadDB( String[] symbols, Calendar from, Calendar to ) {
+      Map<String, List<Quote>> resultMap = new HashMap<>();
+      try {
+         fillHistoryFromYahooService( symbols, from, to, resultMap );
+         for( String symbol : resultMap.keySet() ){
+            importQuotes( resultMap.get( symbol ) );
+         }
+      } catch (IOException e) {
+         e.printStackTrace();
       }
       return resultMap;
+   }
+
+   private boolean needToUpdateDB( Map<String, List<Quote>> resultMap ) {
+      boolean result = resultMap.size() == 0;
+      int maxSize = 0, size;
+      for( String symbol : resultMap.keySet() ){
+         size = resultMap.get( symbol ) == null ? 0 : resultMap.get( symbol ).size();
+         if(maxSize < size){
+            maxSize = size;
+         }
+      }
+      
+      for( String symbol : resultMap.keySet() ){
+         size = resultMap.get( symbol ) == null ? 0 : resultMap.get( symbol ).size();
+         if ( size == 0 ||  size < maxSize ){
+            result = true;
+            break;
+         }
+      }
+      return result;
+   }
+
+   private void addLastQuote( String[] symbols, Map<String, List<Quote>> resultMap ) throws IOException {
+      Map<String, IStockWrapper> stocksMap = getStocks( normalizeSymbols( symbols ) );
+      Quote lastQuote, todayQuote;
+      for(String symbol : stocksMap.keySet()){
+         todayQuote = stocksMap.get( symbol ).getLastQuote();
+         List<Quote> list = resultMap.get(symbol) != null ? resultMap.get(symbol) : resultMap.put( symbol, new ArrayList<Quote>() );
+         lastQuote = list.get(0);
+         if(lastQuote == null || todayQuote.getDate().get( Calendar.DATE ) != lastQuote.getDate().get( Calendar.DATE )){
+            list.add( todayQuote );
+         }
+      }
    }
 
    private List<Quote> historyToQuotes( List<HistoricalQuote> history ) {
@@ -126,4 +169,21 @@ public class StockService implements IStockService{
          e.printStackTrace();
       }
    }
+
+   @Override
+   public void deleteStock( String symbol ) {
+      quoteDAO.removeQuotes( normalizeSymbol( symbol ) );
+   }
+   
+   private String normalizeSymbol(String symbol){
+      return symbol.toUpperCase().trim();
+   }
+   
+   private String[] normalizeSymbols(String[] symbols){
+      for(int i = 0; i < symbols.length; i++){
+         symbols[i] = normalizeSymbol( symbols[i] );
+      }
+      return symbols;
+   }
+   
 }

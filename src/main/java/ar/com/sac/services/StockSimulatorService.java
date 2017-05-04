@@ -80,4 +80,9 @@ public class StockSimulatorService implements IStockService {
    public void updateDBJob() {
    }
 
+   @Override
+   public void deleteStock( String symbol ) {
+      quotes.clear();
+   }
+
 }

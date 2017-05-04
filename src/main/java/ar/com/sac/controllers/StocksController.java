@@ -42,6 +42,12 @@ public class StocksController {
        return stockService.getStocks( symbols ).values();
    }
    
+   @RequestMapping(value="/{symbol:.+}" ,method = RequestMethod.DELETE)
+   public ResponseEntity<HttpStatus> delete(@PathVariable("symbol") String symbol ) throws IOException {
+      stockService.deleteStock( symbol );
+      return new ResponseEntity<HttpStatus> ( HttpStatus.OK );
+   }
+   
    @RequestMapping(value= "/history/{symbol:.+}", method = RequestMethod.GET)
    public List<Quote> getHistory(@PathVariable("symbol") String symbol ) throws IOException {
       return stockService.getHistory( symbol );
