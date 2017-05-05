@@ -140,10 +140,19 @@ public class AlertService {
          notifications.add( notification  );
       }
    }
+   
+   @Transactional
+   public void saveOrUpdateAlert( Alert newAlert ) {
+      normalizeId( newAlert );
+      alertDAO.update( newAlert );
+   }
 
    @Transactional
    public void saveAlert( Alert newAlert ) {
       normalizeId( newAlert );
+      if( getAlertById( newAlert.getId() ) != null ){
+         throw new RuntimeException( "Already exist an alert with id: " + newAlert.getId() );
+      }
       alertDAO.persist( newAlert );
    }
    

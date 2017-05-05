@@ -67,7 +67,7 @@ public class AlertController {
    
    @RequestMapping(method = RequestMethod.PUT)
    public ResponseEntity<HttpStatus> updateAlert( @RequestBody Alert alert ) throws IOException {
-      alertService.updateAlert( alert );
+      alertService.saveOrUpdateAlert( alert );
       return new ResponseEntity<HttpStatus> ( HttpStatus.OK );
    }
    

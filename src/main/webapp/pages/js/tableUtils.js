@@ -31,7 +31,7 @@ function createTable( data, parentContainerId, columns, columnNames, onClickCall
         }
         for( var j = 0; j < columns.length ; j++ ){
             var td = document.createElement( "td" );
-            td.innerHTML = data[ i ][ columns[j] ];
+            td.innerHTML = stringToHTML( data[ i ][ columns[j] ] );
             tr.appendChild( td );
         }
     	 body.appendChild( tr );

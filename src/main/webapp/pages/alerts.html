@@ -28,6 +28,7 @@
 
       <script language="Javascript" src="/stock-alerts/pages/js/httpUtils.js"> </script>
       <script language="Javascript" src="/stock-alerts/pages/js/tableUtils.js"> </script>
+      <script language="Javascript" src="/stock-alerts/pages/js/utils.js"> </script>
       
       <style>
           tbody tr.selected td {
@@ -76,7 +77,26 @@
          function save( event ){
         	    //avoids default submit process
              event.preventDefault();
-             var bodyObject = {};
+             var bodyObject = getBodyObject();
+
+             httpPutAsync( "/stock-alerts/alerts", bodyObject, function( results ){
+            	 loadAlerts();
+             });
+         }
+
+         function deleteAlert( ){
+        	    var id = document.getElementById("id").value;
+        	    if(id == ''){
+            	  return;
+             }
+
+             httpDeleteAsync( "/stock-alerts/alerts/"+ id,  function( results ){
+                loadAlerts();
+             });
+         }
+
+         function getBodyObject(){
+        	    var bodyObject = {};
              bodyObject.id = document.getElementById("id").value;
              bodyObject.active = document.getElementById("activeCheckbox").checked;
              bodyObject.expression = document.getElementById("expression").value;
@@ -85,10 +105,7 @@
              bodyObject.sendEmail = document.getElementById("sendEmailCheckbox").checked;
              bodyObject.symbol = document.getElementById("tickerSymbol").value;
              bodyObject.opposedAlertId = document.getElementById("opposedAlertId").value;
-
-             httpPutAsync( "/stock-alerts/alerts", bodyObject, function( results ){
-            	 loadAlerts();
-             });
+             return bodyObject;
          }
 
          function processSelected(){
@@ -181,6 +198,7 @@
                   </div>
 	               <div class="form-group">
 	                  <button type="submit" class="btn btn-primary">Save</button>
+	                  <button type="button" class="btn btn-primary" onClick="deleteAlert()">Delete</button>
 	               </div>
 	            </form>
                <button type="button" class="btn btn-primary" onClick="processSelected()">Process</button>

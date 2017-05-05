@@ -28,6 +28,16 @@ function httpPutAsync(theUrl, bodyObject, callback){
 	httpAsync(theUrl, bodyObject, callback, 'PUT');
 }
 
+function httpDeleteAsync(theUrl, callback){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("DELETE", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
 function httpPostFile( propertyName, file, theUrl, callback){
 	var formData = new FormData();
 	formData.append(propertyName, file);

@@ -32,6 +32,7 @@
 
 <script language="Javascript" src="/stock-alerts/pages/js/httpUtils.js"> </script>
 <script language="Javascript" src="/stock-alerts/pages/js/tableUtils.js"> </script>
+<script language="Javascript" src="/stock-alerts/pages/js/utils.js"> </script>
 
 <script language="Javascript">
          
@@ -118,8 +119,8 @@
         	      dl.className = "dl-horizontal";
         	      resultDiv.appendChild( dl );
 
-        	      appendDescription( dl, "Best Buy Expression", resultObject.bestBuyExpression);
-        	      appendDescription( dl, "Best Sell Expression", resultObject.bestSellExpression);
+        	      appendDescription( dl, "Best Buy Expression", stringToHTML(resultObject.bestBuyExpression));
+        	      appendDescription( dl, "Best Sell Expression", stringToHTML(resultObject.bestSellExpression));
         	      appendDescription( dl, "Final Capital Balance", "$" + resultObject.bestSimulationResults.finalCapitalBalance);
         	      appendDescription( dl, "Final Liquity", "$" + resultObject.bestSimulationResults.finalLiquity);
         	      appendDescription( dl, "Total Performance", "$" + resultObject.bestSimulationResults.totalPerformance);
@@ -141,19 +142,6 @@
               dd.style='margin-left: 250px';
               dd.innerHTML = value ;
               parentDL.appendChild( dd );
-          }
-
-          function msToTime(duration) {
-              var milliseconds = parseInt((duration%1000)/100)
-                  , seconds = parseInt((duration/1000)%60)
-                  , minutes = parseInt((duration/(1000*60))%60)
-                  , hours = parseInt((duration/(1000*60*60))%24);
-
-              hours = (hours < 10) ? "0" + hours : hours;
-              minutes = (minutes < 10) ? "0" + minutes : minutes;
-              seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-              return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
           }
 
       </script>
