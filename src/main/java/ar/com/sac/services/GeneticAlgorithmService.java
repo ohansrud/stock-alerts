@@ -1,6 +1,7 @@
 package ar.com.sac.services;
 
 import ar.com.sac.model.geneticAlgorithm.ChromosomeTranslator;
+import ar.com.sac.model.geneticAlgorithm.GeneticAlgorithmEvolutionResult;
 import ar.com.sac.model.geneticAlgorithm.GeneticAlgorithmParameters;
 import ar.com.sac.model.geneticAlgorithm.GeneticAlgorithmResults;
 import ar.com.sac.model.geneticAlgorithm.SimulationFitnessFunction;
@@ -21,6 +22,7 @@ public class GeneticAlgorithmService {
    private SimulatorService simulatorService;
 
    public GeneticAlgorithmResults runGeneticAlgorithm(GeneticAlgorithmParameters parameters) throws InvalidConfigurationException{
+      Configuration.reset();
       // Start with a DefaultConfiguration, which comes setup with the
       // most common settings.
       // -------------------------------------------------------------
@@ -58,22 +60,19 @@ public class GeneticAlgorithmService {
       Genotype population = Genotype.randomInitialGenotype( conf );
       
       
+      GeneticAlgorithmResults results = new GeneticAlgorithmResults();
       
       long startTime = System.currentTimeMillis(); 
       for (int i = 0; i < parameters.getNumberOfEvolutions(); i++) {
-          printGeneration(i, population, chromosomeTranslator);
+//          printGeneration(i, population, chromosomeTranslator);
+          addEvolutionResults(i, results, population, chromosomeTranslator);
           population.evolve(); 
       } 
       long endTime = System.currentTimeMillis(); 
-      System.out.println("Total evolution time: " + (endTime - startTime) + " ms"); 
 
       IChromosome bestSolution = population.getFittestChromosome();
-      System.out.println("--------------------------");
-      System.out.println("Best buy Expression: " + chromosomeTranslator.getBuyExpression( bestSolution ));
-      System.out.println("Best sell Expression: " + chromosomeTranslator.getSellExpression( bestSolution ));
-      System.out.println( "Best Performance: $" + bestSolution.getFitnessValue() );
+//      printBestSolution( chromosomeTranslator, bestSolution );
       
-      GeneticAlgorithmResults results = new GeneticAlgorithmResults();
       results.setTotalTime( endTime - startTime );
       //Run simulation one more time with best solution in order to get results
       results.setBestSimulationResults( fitnessFunction.getSimulationResults( bestSolution ) );
@@ -82,6 +81,26 @@ public class GeneticAlgorithmService {
       return results;
    }
 
+   @SuppressWarnings("unused")
+   private void printBestSolution( ChromosomeTranslator chromosomeTranslator, IChromosome bestSolution ) {
+      System.out.println("--------------------------");
+      System.out.println("Best buy Expression: " + chromosomeTranslator.getBuyExpression( bestSolution ));
+      System.out.println("Best sell Expression: " + chromosomeTranslator.getSellExpression( bestSolution ));
+      System.out.println( "Best Performance: $" + bestSolution.getFitnessValue() );
+   }
+
+   private void addEvolutionResults( int i, GeneticAlgorithmResults results, Genotype population,
+                                     ChromosomeTranslator chromosomeTranslator ) {
+      IChromosome bestSolution = population.getFittestChromosome();
+      GeneticAlgorithmEvolutionResult evolutionResult = new GeneticAlgorithmEvolutionResult();
+      evolutionResult.setEvolutionNumber( i );
+      evolutionResult.setBestPerformance( bestSolution.getFitnessValue() );
+      evolutionResult.setBestBuyExpression( chromosomeTranslator.getBuyExpression( bestSolution ) );
+      evolutionResult.setBestSellExpression( chromosomeTranslator.getSellExpression( bestSolution ) );
+      results.addEvolutionResult( evolutionResult );
+   }
+
+   @SuppressWarnings("unused")
    private void printGeneration( int iteration, Genotype population, ChromosomeTranslator chromosomeTranslator) {
       System.out.println("------------Generation " + iteration +"--------------");
 //      System.out.println( "Population: " );

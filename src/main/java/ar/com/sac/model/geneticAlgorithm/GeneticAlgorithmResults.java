@@ -1,11 +1,14 @@
 package ar.com.sac.model.geneticAlgorithm;
 
 import ar.com.sac.model.simulator.SimulationResults;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GeneticAlgorithmResults {
    
    private String bestBuyExpression;
    private String bestSellExpression;
+   private List<GeneticAlgorithmEvolutionResult> evolutionResults = new ArrayList<>();
    private SimulationResults bestSimulationResults;
    private long totalTime; //in ms
    
@@ -67,5 +70,16 @@ public class GeneticAlgorithmResults {
    public synchronized void setBestSimulationResults( SimulationResults bestSimulationResults ) {
       this.bestSimulationResults = bestSimulationResults;
    }
+
    
+   /**
+    * @return the evolutionResults
+    */
+   public synchronized List<GeneticAlgorithmEvolutionResult> getEvolutionResults() {
+      return evolutionResults;
+   }
+   
+   public void addEvolutionResult( GeneticAlgorithmEvolutionResult evolutionResult){
+      evolutionResults.add( evolutionResult );
+   }
 }

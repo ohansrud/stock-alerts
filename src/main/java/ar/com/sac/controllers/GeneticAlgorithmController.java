@@ -6,6 +6,7 @@ import ar.com.sac.services.GeneticAlgorithmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +21,7 @@ public class GeneticAlgorithmController {
       private GeneticAlgorithmService geneticAlgorithmService;
       
       @RequestMapping(method = RequestMethod.POST)
-      public ResponseEntity<GeneticAlgorithmResults> runGeneticAlgorithm( ) throws Exception {
-         GeneticAlgorithmParameters parameters = new GeneticAlgorithmParameters();
+      public ResponseEntity<GeneticAlgorithmResults> runGeneticAlgorithm( @RequestBody GeneticAlgorithmParameters parameters) throws Exception {
          return new ResponseEntity<GeneticAlgorithmResults>( geneticAlgorithmService.runGeneticAlgorithm( parameters ), HttpStatus.OK );
       }
 }

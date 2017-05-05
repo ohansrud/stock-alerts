@@ -53,6 +53,9 @@ public class Simulation {
             currentSymbol = currentQuote.getSymbol();
             quotesAux = symbolToQuotesMap.get( currentSymbol );
             index = indexPerSymbolMap.get( currentSymbol );
+            if(index < 0){
+               throw new RuntimeException( "There are no quotes for " + currentSymbol );
+            }
             stockSimulatorService.setSimulationQuotes( quotesAux.subList( index, quotesAux.size() ));
             currentLastQuote = stockSimulatorService.getStock( currentSymbol ).getLastQuote();
             if(!tryBuy()){

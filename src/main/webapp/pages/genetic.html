@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns:uiform>
+<head>
+<!---------------------------------------------------------->
+<!----------------- HOME DE LA APLICACION ------------------>
+<!---------------------------------------------------------->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Valildator -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+	
+<!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"/>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.13/sorting/datetime-moment.js"></script>
+
+<!-- D3 graphics -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script language="Javascript" src="/stock-alerts/pages/js/chartUtils.js"> </script>
+
+<script language="Javascript" src="/stock-alerts/pages/js/httpUtils.js"> </script>
+<script language="Javascript" src="/stock-alerts/pages/js/tableUtils.js"> </script>
+
+<script language="Javascript">
+         
+         function startup(){
+           
+         }
+
+         function consult( event ){
+             //avoids default submit process
+             event.preventDefault();
+             $("#resultDiv").empty();
+             $("#evolutionsDiv").empty();
+             $("#performancesDiv").empty();
+             $("#recordsDiv").empty();
+             $("#visualisation").empty();
+
+             var bodyObject = {};
+             bodyObject.populationSize =  getValue("populationSize");
+             bodyObject.numberOfEvolutions =  getValue("numberOfEvolutions");
+             
+             var simulatorParameters = {};
+             simulatorParameters.initialCapital =  getValue("initialCapital");
+             simulatorParameters.commissionPercentage = getValue("commissionPercentage");
+             simulatorParameters.positionMinimumValue = getValue("positionMinimumValue");
+             simulatorParameters.positionPercentage = getValue("positionPercentage");
+             simulatorParameters.positionMaximumValue = getValue("positionMaximumValue");
+             simulatorParameters.buyExpression = getValue("buyExpression");
+             simulatorParameters.sellExpression = getValue("sellExpression");
+             simulatorParameters.stopLossPercentage = getValue("stopLossPercentage");
+             var tickerInput = document.getElementById( "tickerSymbols" );
+             simulatorParameters.symbols = tickerInput.value.replace(/\s/g,'').split(",");
+             simulatorParameters.yearFrom = getValue("yearFrom");
+             simulatorParameters.yearTo = getValue("yearTo");
+             simulatorParameters.previousDaysOfAnalysis = getValue("previousDaysOfAnalysis");
+             bodyObject.simulatorParameters = simulatorParameters;
+             
+             var url = "/stock-alerts/genetic-algorithm";
+             httpPostAsync( url, bodyObject, callback );
+         }
+
+         function getValue( id ){
+        	   return document.getElementById( id ).value;
+         }
+
+        	 function callback( result ){ 
+//               document.getElementById( "resultDiv" ).innerHTML = result; 
+              var resultObject = JSON.parse(result);
+              var history = resultObject.bestSimulationResults.records;
+              geneticResultsToDiv(resultObject);
+
+              var evolutionsDiv = document.getElementById( "evolutionsDiv" );
+              header = document.createElement( "h3" );
+              header.innerHTML = "Best Solution per Evolution" 
+              evolutionsDiv.appendChild( header );
+              createTable(resultObject.evolutionResults, "evolutionsDiv", 
+                      ["evolutionNumber","bestPerformance","bestBuyExpression","bestSellExpression"], 
+                      ["Number","Best Performance (Capital Balance)","Best Buy Expression","Best Sell Expression"]);
+
+              var performancesDiv = document.getElementById( "performancesDiv" );
+              header = document.createElement( "h3" );
+              header.innerHTML = "Performances per Symbol"
+              performancesDiv.appendChild( header );
+              createTable(resultObject.bestSimulationResults.symbolPerformances, "performancesDiv", 
+                      ["symbol","performance","positiveSales", "negativeSales","buyingOpportunitiesMissed","operationDays","operationDaysAverage"], 
+                      ["Symbol","Performance","Positive Sales", "Negative Sales","Buying Opportunities Missed","Operation Days","Operation Days Average"]);
+
+              var recordsDiv = document.getElementById( "recordsDiv" );
+              header = document.createElement( "h3" );
+              header.innerHTML = "Simulation Records" 
+              recordsDiv.appendChild( header );
+              createTable(history, "recordsDiv", 
+                      ["id","orderDate","relatedRecordId", "capitalBalance","liquity","orderType","orderSymbol","orderAmount","orderPrice","orderTotalCost","operationPerformance","operationDays"], 
+                      ["Id","Date","Related Record", "Capital Balance","Liquity","Order Type","Symbol","Amount","Price","Total Cost","Operation Performance","Operation Days"]);
+              createChart(history, "visualisation", "orderDate", "capitalBalance","liquity", ["Capital","Liquity"]);
+          } 
+
+        	 function geneticResultsToDiv( resultObject ){
+        	      var resultDiv = document.getElementById( "resultDiv" );
+        	      var header = document.createElement( "h2" );
+        	      header.innerHTML = "Genetic Algorithm Results" 
+        	    	resultDiv.appendChild( header );
+      	    	
+        	      var dl = document.createElement( "dl" );
+        	      dl.className = "dl-horizontal";
+        	      resultDiv.appendChild( dl );
+
+        	      appendDescription( dl, "Best Buy Expression", resultObject.bestBuyExpression);
+        	      appendDescription( dl, "Best Sell Expression", resultObject.bestSellExpression);
+        	      appendDescription( dl, "Final Capital Balance", "$" + resultObject.bestSimulationResults.finalCapitalBalance);
+        	      appendDescription( dl, "Final Liquity", "$" + resultObject.bestSimulationResults.finalLiquity);
+        	      appendDescription( dl, "Total Performance", "$" + resultObject.bestSimulationResults.totalPerformance);
+        	      appendDescription( dl, "Total Performance Percentage", "%" + resultObject.bestSimulationResults.totalPerformancePercentage);
+        	      appendDescription( dl, "Total Buying Opportunities Missed", resultObject.bestSimulationResults.totalBuyingOpportunitiesMissed);
+        	      appendDescription( dl, "Quantity of Operations", resultObject.bestSimulationResults.quantityOfOperations);
+        	      appendDescription( dl, "Positive Sales", resultObject.bestSimulationResults.positiveSales);
+        	      appendDescription( dl, "Negative Sales", resultObject.bestSimulationResults.negativeSales);
+        	      appendDescription( dl, "Total Time", msToTime(resultObject.totalTime));
+        	      
+          }
+
+          function appendDescription( parentDL, title, value ){
+        	     var dt = document.createElement( "dt" );
+        	     dt.style='width: 240px;'
+              dt.innerHTML = title;
+              parentDL.appendChild( dt );
+              var dd = document.createElement( "dd" );
+              dd.style='margin-left: 250px';
+              dd.innerHTML = value ;
+              parentDL.appendChild( dd );
+          }
+
+          function msToTime(duration) {
+              var milliseconds = parseInt((duration%1000)/100)
+                  , seconds = parseInt((duration/1000)%60)
+                  , minutes = parseInt((duration/(1000*60))%60)
+                  , hours = parseInt((duration/(1000*60*60))%24);
+
+              hours = (hours < 10) ? "0" + hours : hours;
+              minutes = (minutes < 10) ? "0" + minutes : minutes;
+              seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+              return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+          }
+
+      </script>
+</head>
+
+<!-- 
+   {
+   "initialCapital": 100000,
+   "commissionPercentage": 0.6,
+   "positionMinimumValue": 20000,
+   "positionPercentage": 20,
+   "positionMaximumValue": 150000,
+   "buyExpression": "MACD(12,26,[SYMBOL])>MACD_SIGNAL_LINE(12,26,9,[SYMBOL])",
+   "sellExpression": "MACD(12,26,[SYMBOL])<MACD_SIGNAL_LINE(12,26,9,[SYMBOL])",
+   "stopLossPercentage" :  2,
+   "symbols": ["GOOGL","AAPL","TSLA"],
+   "yearFrom": 2016,
+   "yearTo": 2017,
+   "previousDaysOfAnalysis": 365
+}
+ private int populationSize;
+   private int numberOfEvolutions;
+    -->
+
+<body onload="startup();"
+	style="overflow: auto; margin: 0px; border: 0px;">
+	<div class="container">
+		<h2>Genetic Algorithm</h2>
+		<div class="panel panel-default">
+         <div class="panel-body">
+				<form data-toggle="validator" name="simulatorForm" id="simulatorForm"
+					onsubmit="consult(event)">
+					<div class="form-group">
+                  <label for="populationSize">Population Size</label> <input
+                     class="form-control" type="number" min="2" value="100"
+                     id="populationSize">
+               </div>
+               <div class="form-group">
+                  <label for="populationSize">Number of Evolutions</label> <input
+                     class="form-control" type="number" min="1" value="10"
+                     id="numberOfEvolutions">
+               </div>
+               <div class="panel panel-default">
+                  <div class="panel-body">
+							<div class="form-group">
+								<label for="initialCapital">Initial Capital</label> <input
+									class="form-control" type="number" min="1" value="115000"
+									id="initialCapital">
+							</div>
+							<div class="form-group">
+								<label for="commissionPercentage">Commission Percentage</label> <input
+									class="form-control" type="number" min="0.01" value="0.7"
+									id="commissionPercentage" step="any">
+							</div>
+							<div class="form-group">
+								<label for="positionMinimumValue">Position Minimum Value</label> <input
+									class="form-control" type="number" min="1" value="20000"
+									id="positionMinimumValue">
+							</div>
+							<div class="form-group">
+								<label for="positionPercentage">Position Percentage</label> <input
+									class="form-control" type="number" min="1" value="20"
+									id="positionPercentage">
+							</div>
+							<div class="form-group">
+								<label for="positionMaximumValue">Position Maximum Value</label> <input
+									class="form-control" type="number" min="1" value="150000"
+									id="positionMaximumValue">
+							</div>
+							<div class="form-group">
+								<label for="buyExpression">Buy Expression</label> <input type="text"
+									class="form-control" id="buyExpression"
+									placeholder="STOCHASTIC_K(14,[SYMBOL])>STOCHASTIC_D(14,3,[SYMBOL])"
+									data-minlength="1">
+							</div>
+							<div class="form-group">
+								<label for="sellExpression">Sell Expression</label> <input
+									type="text" class="form-control" id="sellExpression"
+									placeholder="STOCHASTIC_K(14,[SYMBOL])<STOCHASTIC_D(14,3,[SYMBOL])&&[OPERATION_PERFORMANCE_PERCENTAGE]>3"
+									data-minlength="1">
+							</div>
+							<div class="form-group">
+								<label for="stopLossPercentage">StopLoss Percentage</label> <input
+									class="form-control" type="number" min="0.1" value="10"
+									id="stopLossPercentage" step="any">
+							</div>
+							<div class="form-group">
+								<label for="tickerSymbols">Ticker Symbols</label> <input type="text"
+									class="form-control" id="tickerSymbols" value="TSLA, AAPL, COKE, GOOGL"
+									placeholder="TSLA, AAPL"
+									required data-minlength="1">
+							</div>
+							<div class="form-group">
+								<label for="yearFrom">Year From</label> <input class="form-control"
+									type="number" min="1" value="2016" id="yearFrom">
+							</div>
+							<div class="form-group">
+								<label for="yearTo">Year To</label> <input class="form-control"
+									type="number" min="1" value="2017" id="yearTo">
+							</div>
+							<div class="form-group">
+								<label for="previousDaysOfAnalysis">Previous Days of
+									Analysis</label> <input class="form-control" type="number" min="1"
+									value="365" id="previousDaysOfAnalysis">
+							</div>
+					    </div>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Run</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="resultDiv"></div>
+		<div id="evolutionsDiv" style="margin-top: 10px;"></div>
+		<div id="performancesDiv" style="margin-top: 10px;"></div>
+		<div id="recordsDiv" style="margin-top: 10px;"></div>
+		<svg id="visualisation" width="1000" height="500"></svg>
+	</div>
+</body>
+</html>
