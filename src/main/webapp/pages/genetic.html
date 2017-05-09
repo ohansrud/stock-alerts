@@ -74,7 +74,7 @@
              bodyObject.simulatorParameters = simulatorParameters;
              
              var url = "/stock-alerts/genetic-algorithm";
-             httpPostAsync( url, bodyObject, callback );
+             httpPostAsync( url, bodyObject, callback, "resultDiv" );
          }
 
          function getValue( id ){
@@ -172,7 +172,7 @@
 
 <body onload="startup();"
 	style="overflow: auto; margin: 0px; border: 0px;">
-	<div class="container">
+	<div class="container" id="container">
 		<h2>Genetic Algorithm</h2>
 		<div class="panel panel-default">
          <div class="panel-body">

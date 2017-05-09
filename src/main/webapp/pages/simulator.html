@@ -65,7 +65,7 @@
              
              
              var url = "/stock-alerts/simulator";
-             httpPostAsync( url, bodyObject, callback );
+             httpPostAsync( url, bodyObject, callback, "resultDiv");
          }
 
          function getValue( id ){
@@ -73,7 +73,6 @@
          }
 
         	 function callback( result ){ 
-//               document.getElementById( "resultDiv" ).innerHTML = result; 
               var resultObject = JSON.parse(result);
               var history = resultObject.records;
               strategyResultsToDiv(resultObject);

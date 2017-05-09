@@ -45,7 +45,7 @@
         	    var tickerInput = document.getElementById( "tickerSymbol" );
         	    var historyCheckbox = document.getElementById( "historyCheckbox" );
              var url = "/stock-alerts/stocks/" + (historyCheckbox.checked? "history/" :"") + tickerInput.value;
-             httpGetAsync( url, stockToPage );
+             httpGetAsync( url, stockToPage, "resultDiv" );
          }
 
          function importQuotes( event ){
@@ -65,7 +65,7 @@
         	    $("#resultDiv").empty();
              $("#visualisation").empty();
              var url = "/stock-alerts/stocks/symbols";
-             httpGetAsync( url, loadSymbols );
+             httpGetAsync( url, loadSymbols, "resultDiv");
          }
 
          function loadSymbols( result ){
