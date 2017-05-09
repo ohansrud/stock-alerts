@@ -185,5 +185,16 @@ public class StockService implements IStockService{
       }
       return symbols;
    }
+
+   @Override
+   public void autoUpdateDBHistory( Integer year ) {
+      if(year == null){
+         return;
+      }
+      Calendar from = Calendar.getInstance();
+      from.set( Calendar.YEAR, year );
+      List<String> symbols = getSymbols();
+      autoLoadDB( symbols.toArray( new String[symbols.size()] ), from, Calendar.getInstance() );
+   }
    
 }

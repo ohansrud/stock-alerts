@@ -85,4 +85,11 @@ public class StockSimulatorService implements IStockService {
       quotes.clear();
    }
 
+   /**
+    * Don't use this method in simulations
+    */
+   @Override
+   public void autoUpdateDBHistory( Integer fromYear ) {
+   }
+
 }

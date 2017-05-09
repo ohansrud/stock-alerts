@@ -53,6 +53,11 @@ public class StocksController {
       return stockService.getHistory( symbol );
    }
    
+   @RequestMapping(value= "/history/{year}", method = RequestMethod.PUT)
+   public ResponseEntity<HttpStatus> loadHistory( @PathVariable("year") Integer year ) throws IOException {
+      stockService.autoUpdateDBHistory( year );
+      return new ResponseEntity<HttpStatus> ( HttpStatus.OK );
+   }
    
    @RequestMapping( value = "/import/csv", method = RequestMethod.POST )
    public ResponseEntity<HttpStatus> importQuotes( @RequestParam( value = "symbol" ) String symbol,
