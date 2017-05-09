@@ -52,6 +52,10 @@
              var bodyObject = {};
              bodyObject.populationSize =  getValue("populationSize");
              bodyObject.numberOfEvolutions =  getValue("numberOfEvolutions");
+             bodyObject.usePerformancePercentage = document.getElementById("usePerformancePercentage").checked;
+             bodyObject.useStochastic = document.getElementById("useStochastic").checked;
+             bodyObject.useEMA = document.getElementById("useEMA").checked;
+             bodyObject.useMACD = document.getElementById("useMACD").checked;
              
              var simulatorParameters = {};
              simulatorParameters.initialCapital =  getValue("initialCapital");
@@ -184,6 +188,18 @@
                      class="form-control" type="number" min="1" value="10"
                      id="numberOfEvolutions">
                </div>
+               <div class="checkbox">
+                 <label><input id="usePerformancePercentage" type="checkbox" checked> Use Performance Percentage</label>
+              </div>
+              <div class="checkbox">
+                 <label><input id="useStochastic" type="checkbox" checked> Use Stochastic</label>
+              </div>
+              <div class="checkbox">
+                 <label><input id="useEMA" type="checkbox"> Use EMA</label>
+              </div>
+              <div class="checkbox">
+                 <label><input id="useMACD" type="checkbox"> Use MACD (takes more time)</label>
+              </div>
                <div class="panel panel-default">
                   <div class="panel-body">
 							<div class="form-group">

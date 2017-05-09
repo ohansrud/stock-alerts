@@ -14,18 +14,28 @@ public class ChromosomeTranslator {
       private List<GenesBuilder> buyExpressionGenesBuilders = new ArrayList<>();
       private List<GenesBuilder> sellExpressionGenesBuilders = new ArrayList<>();
 
-      public ChromosomeTranslator( Configuration jgapConfig ){
+      public ChromosomeTranslator( Configuration jgapConfig, GeneticAlgorithmParameters gaParameters ){
          this.jgapConfig = jgapConfig;
          //Set up gene builders
-         buyExpressionGenesBuilders.add( new EMAGenesBuilder() );
-         buyExpressionGenesBuilders.add( new StochasticGenesBuilder() );
-//         buyExpressionGenesBuilders.add( new MACDGenesBuilder() );
+         if(gaParameters.isUseEMA()){
+            buyExpressionGenesBuilders.add( new EMAGenesBuilder() );
+            sellExpressionGenesBuilders.add( new EMAGenesBuilder() );
+         }
          
+         if(gaParameters.isUseMACD()){
+            buyExpressionGenesBuilders.add( new MACDGenesBuilder() );
+            sellExpressionGenesBuilders.add( new MACDGenesBuilder() );
+         }
          
-         sellExpressionGenesBuilders.add( new EMAGenesBuilder() );
-         sellExpressionGenesBuilders.add( new StochasticGenesBuilder() );
-//         sellExpressionGenesBuilders.add( new MACDGenesBuilder() );
-         sellExpressionGenesBuilders.add( new OperationPerformancePercentageGenesBuilder() );
+         if(gaParameters.isUseStochastic()){
+            buyExpressionGenesBuilders.add( new StochasticGenesBuilder() );
+            sellExpressionGenesBuilders.add( new StochasticGenesBuilder() );
+         }
+         
+         if(gaParameters.isUsePerformancePercentage()){
+            sellExpressionGenesBuilders.add( new OperationPerformancePercentageGenesBuilder() );
+         }
+         
          setIndexes();
       }
    

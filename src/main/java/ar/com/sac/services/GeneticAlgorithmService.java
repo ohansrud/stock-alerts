@@ -35,7 +35,7 @@ public class GeneticAlgorithmService {
       // ------------------------------------------------------------- 
       conf.setPreservFittestIndividual(true); 
 
-      ChromosomeTranslator chromosomeTranslator = new ChromosomeTranslator( conf );
+      ChromosomeTranslator chromosomeTranslator = new ChromosomeTranslator( conf, parameters );
 
       // Set the fitness function we want to use, which is our
       // MinimizingMakeChangeFitnessFunction that we created earlier.

@@ -7,6 +7,10 @@ public class GeneticAlgorithmParameters {
    private SimulatorParameters simulatorParameters;
    private int populationSize;
    private int numberOfEvolutions;
+   private boolean useStochastic = true; //true by default
+   private boolean usePerformancePercentage = true; //true by default
+   private boolean useEMA;
+   private boolean useMACD;
 
    public GeneticAlgorithmParameters(){
       simulatorParameters = SimulatorParameters.createDefault();
@@ -50,6 +54,61 @@ public class GeneticAlgorithmParameters {
       this.numberOfEvolutions = numberOfEvolutions;
    }
    
+   /**
+    * @return the useStochastic
+    */
+   public synchronized boolean isUseStochastic() {
+      return useStochastic;
+   }
+   
+   /**
+    * @param useStochastic the useStochastic to set
+    */
+   public synchronized void setUseStochastic( boolean useStochastic ) {
+      this.useStochastic = useStochastic;
+   }
+   
+   /**
+    * @return the usePerformancePercentage
+    */
+   public synchronized boolean isUsePerformancePercentage() {
+      return usePerformancePercentage;
+   }
+   
+   /**
+    * @param usePerformancePercentage the usePerformancePercentage to set
+    */
+   public synchronized void setUsePerformancePercentage( boolean usePerformancePercentage ) {
+      this.usePerformancePercentage = usePerformancePercentage;
+   }
+   
+   /**
+    * @return the useEMA
+    */
+   public synchronized boolean isUseEMA() {
+      return useEMA;
+   }
+   
+   /**
+    * @param useEMA the useEMA to set
+    */
+   public synchronized void setUseEMA( boolean useEMA ) {
+      this.useEMA = useEMA;
+   }
+   
+   /**
+    * @return the useMACD
+    */
+   public synchronized boolean isUseMACD() {
+      return useMACD;
+   }
+   
+   /**
+    * @param useMACD the useMACD to set
+    */
+   public synchronized void setUseMACD( boolean useMACD ) {
+      this.useMACD = useMACD;
+   }
    
 
 }

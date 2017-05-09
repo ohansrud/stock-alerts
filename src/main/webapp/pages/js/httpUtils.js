@@ -1,12 +1,13 @@
 function httpGetAsync(theUrl, callback){
-             var xmlHttp = new XMLHttpRequest();
-             xmlHttp.onreadystatechange = function() { 
-                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-                     callback(xmlHttp.responseText);
-             }
-             xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-             xmlHttp.send(null);
-         }
+     var xmlHttp = new XMLHttpRequest();
+     xmlHttp.onreadystatechange = function() { 
+         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+             callback(xmlHttp.responseText);
+     }
+     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+     xmlHttp.timeout = 0; // time in milliseconds
+     xmlHttp.send(null);
+ }
 
 function httpAsync(theUrl, bodyObject, callback, method){
 	var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
@@ -15,6 +16,7 @@ function httpAsync(theUrl, bodyObject, callback, method){
 			callback(xmlhttp.responseText);
 	}
 	xmlhttp.open(method, theUrl, true);
+	xmlhttp.timeout = 0; // time in milliseconds
 	xmlhttp.setRequestHeader("Content-Type", "application/json");
 	xmlhttp.send( JSON.stringify( bodyObject ) );
 	
@@ -48,6 +50,7 @@ function httpPostFile( propertyName, file, theUrl, callback){
 			callback(xhr.responseText);
 	}
 	xhr.open("POST", theUrl);
+	xhr.timeout = 0; // time in milliseconds
 //	xhr.setRequestHeader("Content-Type", "multipart/form-data");
 	xhr.send(formData);
 }
