@@ -72,6 +72,8 @@ Configure your financial alerts from your favorite stock market and receive noti
   * Update all Stocks values in database with last quote
 * DELETE /stock-alerts/stocks/GOOGL
   * Removes all stock information about a ticker
+* PUT /stock-alerts/stocks/history/1999
+  * Update all historical Stocks values in database from a year pass as parameter
   
 
 #### Formulas
@@ -195,7 +197,34 @@ Configure your financial alerts from your favorite stock market and receive noti
 ```
 
 ## Genetic Algorithm
-Soon
+The Genetic algorithm will try to find a good pair of expressions (buy and sell expressions) in order to maximize the capital balance.
+
+### Genetic Algorithm Parameters JSON object
+```
+{
+   "populationSize":"2",
+   "numberOfEvolutions":"1",
+   "usePerformancePercentage":true,
+   "useStochastic":true,
+   "useEMA":true,
+   "useMACD":false,
+   "simulatorParameters":
+   {
+      "initialCapital": 100000,
+      "commissionPercentage": 0.6,
+      "positionMinimumValue": 20000,
+      "positionPercentage": 20,
+      "positionMaximumValue": 150000,
+      "buyExpression": "",
+      "sellExpression": "",
+      "stopLossPercentage" :  2,
+      "symbols": ["GOOGL","AAPL","TSLA"],
+      "yearFrom": 2016,
+      "yearTo": 2017,
+      "previousDaysOfAnalysis": 365
+   }
+}
+```
 
 ## Special Thanks
 * Alejandro Curci
