@@ -59,6 +59,12 @@ public class StocksController {
       return new ResponseEntity<HttpStatus> ( HttpStatus.OK );
    }
    
+   @RequestMapping(value= "/history/{year}/{symbol:.+}", method = RequestMethod.PUT)
+   public ResponseEntity<HttpStatus> loadHistory( @PathVariable("year") Integer year, @PathVariable("symbol") String symbol ) throws IOException {
+      stockService.updateDBHistory( year, symbol );
+      return new ResponseEntity<HttpStatus> ( HttpStatus.OK );
+   }
+   
    @RequestMapping( value = "/import/csv", method = RequestMethod.POST )
    public ResponseEntity<HttpStatus> importQuotes( @RequestParam( value = "symbol" ) String symbol,
                                                    @RequestPart( value = "content_file" ) MultipartFile input ) throws IOException {

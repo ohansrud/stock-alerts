@@ -29,5 +29,7 @@ public interface IStockService {
    public void deleteStock( String symbol );
 
    public void autoUpdateDBHistory( Integer fromYear );
+   
+   public void updateDBHistory( Integer year, String symbol );
 
 }

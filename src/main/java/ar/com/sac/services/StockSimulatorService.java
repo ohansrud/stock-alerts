@@ -91,5 +91,11 @@ public class StockSimulatorService implements IStockService {
    @Override
    public void autoUpdateDBHistory( Integer fromYear ) {
    }
+   /**
+    * Don't use this method in simulations
+    */
+   @Override
+   public void updateDBHistory( Integer year, String symbol ) {
+   }
 
 }
