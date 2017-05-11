@@ -73,7 +73,9 @@ Configure your financial alerts from your favorite stock market and receive noti
 * DELETE /stock-alerts/stocks/GOOGL
   * Removes all stock information about a ticker
 * PUT /stock-alerts/stocks/history/1999
-  * Update all historical Stocks values in database from a year pass as parameter
+  * Update all historical stocks values in database from a year passed as parameter
+* PUT /stock-alerts/stocks/history/1999/GOOGL
+  * Update historical stock values in database from s specific ticker symbol and a year passed as parameters
   
 
 #### Formulas
