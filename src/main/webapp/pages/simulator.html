@@ -82,8 +82,8 @@
               header.innerHTML = "Performances per Symbol" 
               performancesDiv.appendChild( header );
               createTable(resultObject.symbolPerformances, "performancesDiv", 
-                      ["symbol","performance","positiveSales", "negativeSales","buyingOpportunitiesMissed","operationDays","operationDaysAverage"], 
-                      ["Symbol","Performance","Positive Sales", "Negative Sales","Buying Opportunities Missed","Operation Days","Operation Days Average"]);
+                      ["symbol","performance","performanceAveragePerOperation","positiveSales", "negativeSales","buyingOpportunitiesMissed","operationDays","operationDaysAverage"], 
+                      ["Symbol","Performance","Performance Average","Positive Sales", "Negative Sales","Buying Opportunities Missed","Operation Days","Operation Days Average"]);
 
               var recordsDiv = document.getElementById( "recordsDiv" );
               header = document.createElement( "h3" );

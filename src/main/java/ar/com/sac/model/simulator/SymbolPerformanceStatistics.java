@@ -99,5 +99,12 @@ public class SymbolPerformanceStatistics {
       return operationDays / operationsQuantity;
    }
    
+   public double getPerformanceAveragePerOperation(){
+      int operations = getNegativeSales() + getPositiveSales();
+      if( operations == 0 ){
+         return 0d;
+      }
+      return getPerformance() / operations;
+   }
    
 }
