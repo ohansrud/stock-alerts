@@ -8,6 +8,7 @@ import ar.com.sac.model.simulator.SimulatorRecord;
 import ar.com.sac.model.simulator.SymbolPerformanceStatistics;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -102,8 +103,13 @@ public class Simulation {
       Calendar to = new GregorianCalendar(parameters.getYearTo()-1,11,31);
       int indexInFromYear = 0;
       Map<String, List<Quote>> map = stockService.getHistory( parameters.getSymbols(), from, to );
+      List<String> unknownSymbols = new ArrayList<>();
       for(String symbol : parameters.getSymbols()){
          quotesAux = map.get( symbol );
+         if( quotesAux == null){
+            unknownSymbols.add( symbol );
+            continue;
+         }
          indexInFromYear = extractIndexInFromYear( quotesAux );
          allTheQuotes.addAll( quotesAux.subList( 0, indexInFromYear + 1 ) );
          indexPerSymbolMap.put( symbol, indexInFromYear );
@@ -116,6 +122,12 @@ public class Simulation {
          public int compare( Quote o1, Quote o2 ) {
             return o1.getDate().compareTo( o2.getDate() );
          }} );
+      
+      if( unknownSymbols.size() > 0 ){
+         List<String> auxSymbolsList = new ArrayList<String>(Arrays.asList( parameters.getSymbols() ));
+         auxSymbolsList.removeAll( unknownSymbols );
+         parameters.setSymbols( auxSymbolsList.toArray( new String[ auxSymbolsList.size() ] ) );
+      }
    }
    
    private int extractIndexInFromYear( List<Quote> quotes ){
@@ -233,7 +245,7 @@ public class Simulation {
       try{
          if( operator.evaluate() ){
             if(lastSimulatorRecord.getLiquity() >= parameters.getPositionMinimumValue()){
-               double buyPrice = calculateBuyPrice();
+               double buyPrice = calculateAmountOfCapitalToInvest();
                double stockPrice = currentLastQuote.getClose().doubleValue();
                int amount = (int)(buyPrice / stockPrice);
                double stocksValue = amount * stockPrice;
@@ -265,7 +277,11 @@ public class Simulation {
       return bought;
    }
 
-   private double calculateBuyPrice() {
+   /**
+    * PRE: lastSimulatorRecord.getLiquity() >= parameters.getPositionMinimumValue()
+    * @return
+    */
+   private double calculateAmountOfCapitalToInvest() {
       double percentage = parameters.getPositionPercentage();
       double aux = (percentage / 100d) * lastSimulatorRecord.getCapitalBalance();
       if(aux > parameters.getPositionMaximumValue()){
@@ -273,9 +289,13 @@ public class Simulation {
       }else if( aux < parameters.getPositionMinimumValue()){
          aux = parameters.getPositionMinimumValue();
       }
-      
-      if( lastSimulatorRecord.getLiquity() < aux ){
-         aux = parameters.getPositionMinimumValue();
+      // liquity restriction
+      if(aux > lastSimulatorRecord.getLiquity()){
+         aux = lastSimulatorRecord.getLiquity();
+      }
+      // if there is no chance to take another position
+      if( lastSimulatorRecord.getLiquity() < parameters.getPositionMinimumValue()*2 ){
+         aux = lastSimulatorRecord.getLiquity();
       }
       
       double estimatedComission = aux * parameters.getCommissionPercentage() /100d;

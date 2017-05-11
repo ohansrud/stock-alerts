@@ -69,9 +69,7 @@ public class StockService implements IStockService{
       Map<String, List<Quote>> resultMap = new HashMap<>();
       if( usingDB ){
          resultMap = quoteDAO.findByRangeInBulk( symbols, from, to );
-         if( needToUpdateDB( resultMap ) ){
-            resultMap = autoLoadDB( symbols, from, to );
-         }
+         updateMissingQuotes( symbols, from, to, resultMap );
       }else{
          fillHistoryFromYahooService( symbols, from, to, resultMap );
       }
@@ -101,24 +99,21 @@ public class StockService implements IStockService{
       return quoteDAO.findByRangeInBulk( symbols, from, to );
    }
 
-   private boolean needToUpdateDB( Map<String, List<Quote>> resultMap ) {
-      boolean result = resultMap.size() == 0;
-      int maxSize = 0, size;
-      for( String symbol : resultMap.keySet() ){
+   private void updateMissingQuotes( String[] symbols, Calendar from, Calendar to, Map<String, List<Quote>> resultMap ) {
+      List<String> missedSymbols = new ArrayList<>();
+      int size;
+      for( String symbol : symbols ){
          size = resultMap.get( symbol ) == null ? 0 : resultMap.get( symbol ).size();
-         if(maxSize < size){
-            maxSize = size;
+         if ( size == 0 ){
+            missedSymbols.add( symbol );
          }
       }
       
-      for( String symbol : resultMap.keySet() ){
-         size = resultMap.get( symbol ) == null ? 0 : resultMap.get( symbol ).size();
-         if ( size == 0 ||  size < maxSize ){
-            result = true;
-            break;
-         }
+      if( missedSymbols.size() > 0 ){
+         Map<String, List<Quote>> missedMap = autoLoadDB( missedSymbols.toArray(new String[missedSymbols.size()]), from, to );
+         resultMap.putAll( missedMap );
       }
-      return result;
+      
    }
 
    private void addLastQuote( String[] symbols, Map<String, List<Quote>> resultMap ) throws IOException {

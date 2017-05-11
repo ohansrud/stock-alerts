@@ -29,5 +29,4 @@ public class Average implements Formula {
       }
    }
 
-
 }
