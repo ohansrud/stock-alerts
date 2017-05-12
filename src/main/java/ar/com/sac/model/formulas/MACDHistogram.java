@@ -4,27 +4,30 @@ import ar.com.sac.model.Quote;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class MACDHistogram implements Formula{
+public class MACDHistogram extends AbstractFormula{
    
    private int slowPeriod; //12
    private int fastPeriod; //26
    private int signalPeriod; //9
-   private List<Quote> quotes;
-   
 
    public MACDHistogram( int fastPeriod, int slowPeriod, int signalPeriod, List<Quote> quotes){
+      super( quotes );
       this.fastPeriod = fastPeriod;
       this.slowPeriod = slowPeriod;
       this.signalPeriod = signalPeriod;
-      this.quotes = quotes;
    }
 
 
    @Override
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       MACD macd = new MACD( fastPeriod, slowPeriod, quotes );
       MACDSignalLine macdSignalLine = new MACDSignalLine( fastPeriod, slowPeriod, signalPeriod, quotes );
       return macd.calculate().subtract( macdSignalLine.calculate() );
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( slowPeriod ) + "-" + String.valueOf( fastPeriod ) + "-"  + String.valueOf( signalPeriod );
    }
 
 }

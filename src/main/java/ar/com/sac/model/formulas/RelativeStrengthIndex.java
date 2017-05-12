@@ -4,16 +4,15 @@ import ar.com.sac.model.Quote;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class RelativeStrengthIndex implements Formula {
+public class RelativeStrengthIndex extends AbstractFormula {
    private int period;
-   private List<Quote> quotes;
 
    public RelativeStrengthIndex( int period, List<Quote> quotes ){
+      super( quotes );
       this.period = period;
-      this.quotes = quotes;
    }
 
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       double avgGain = 0;
       double avgLoss = 0;
       double change = 0;
@@ -57,6 +56,11 @@ public class RelativeStrengthIndex implements Formula {
       double rsi = 100d - (100d / (1 + rs));
       
       return new BigDecimal( rsi );
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( period );
    }
 
 }

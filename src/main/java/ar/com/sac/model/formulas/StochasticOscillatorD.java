@@ -5,19 +5,18 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StochasticOscillatorD implements Formula {
+public class StochasticOscillatorD extends AbstractFormula {
    private int length;
    private int period;
-   private List<Quote> quotes;
 
    public StochasticOscillatorD( int length, int period, List<Quote> quotes){
+      super( quotes );
       this.length = length;
       this.period = period;
-      this.quotes = quotes;
    }
    
    @Override
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       validate();
       List<BigDecimal> ks = new ArrayList<>();
       for(int i = 0; i < period ; i++){
@@ -36,5 +35,10 @@ public class StochasticOscillatorD implements Formula {
       if( quotes.size() < length ){
          throw new RuntimeException( "Stochastic Oscillator: There are no quotes to calculate Stochastic Oscillator" );
       }
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( period ) + "-" + String.valueOf( length );
    }
 }

@@ -5,18 +5,17 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-public class Variance implements Formula {
+public class Variance extends AbstractFormula {
    
-   private List<Quote> quotes;
- private int period;
+   private int period;
 
    public Variance(int period, List<Quote> quotes){
+      super( quotes );
       this.period = period;
-      this.quotes = quotes;
    }
 
    @Override
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       double average = new Average( period, quotes ).calculate().doubleValue();
       double sum = 0;
       for(Quote quote : quotes.subList( 0, period )){
@@ -26,6 +25,11 @@ public class Variance implements Formula {
          return new BigDecimal( 0 );
       }
       return new BigDecimal( sum / period );
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( period );
    }
 
 }

@@ -5,23 +5,27 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-public class BollingerBandUpper implements Formula {
+public class BollingerBandUpper extends AbstractFormula {
 
    private int period;
    private int k;
-   private List<Quote> quotes;
    
    public BollingerBandUpper( int period, int k, List<Quote> quotes){
+      super( quotes );
       this.period = period;
       this.k = k;
-      this.quotes = quotes;
    }
 
    @Override
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       double sma = new SimpleMovingAverage( period, quotes ).calculate().doubleValue();
       double sd = new StandardDeviation( period, quotes ).calculate().doubleValue();
       return new BigDecimal( sma + (k * sd));
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( period ) + "-" + String.valueOf( k );
    }
 
 }

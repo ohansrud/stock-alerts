@@ -5,18 +5,17 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-public class StochasticOscillatorK implements Formula {
+public class StochasticOscillatorK extends AbstractFormula {
 
    private int length;
-   private List<Quote> quotes;
 
    public StochasticOscillatorK( int length, List<Quote> quotes){
+      super( quotes );
       this.length = length;
-      this.quotes = quotes;
    }
    
    @Override
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       validate();
       Quote firstQuote = quotes.get( 0 );
       double highestHigh = firstQuote.getHigh().doubleValue();
@@ -48,6 +47,11 @@ public class StochasticOscillatorK implements Formula {
       if( quotes.size() < length ){
          throw new RuntimeException( "Stochastic Oscillator: There are no quotes to calculate Stochastic Oscillator" );
       }
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( length );
    }
 
 }

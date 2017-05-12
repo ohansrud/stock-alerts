@@ -2,6 +2,7 @@ package ar.com.sac.model.formulas;
 
 import ar.com.sac.model.Quote;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 
 /**
@@ -9,15 +10,16 @@ import java.math.BigDecimal;
  * @author Sergio Cormio
  *
  */
-public class Price implements Formula {
+public class Price extends AbstractFormula {
    
    private Quote quote;
 
    public Price( Quote quote ){
+      super( Arrays.asList( quote ) );
       this.quote = quote;
    }
 
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       return quote.getClose();
    }
 

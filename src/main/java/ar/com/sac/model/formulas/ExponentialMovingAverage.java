@@ -4,18 +4,17 @@ import ar.com.sac.model.Quote;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class ExponentialMovingAverage implements Formula{
+public class ExponentialMovingAverage extends AbstractFormula{
    
    private int period;
-   private List<Quote> quotes;
    private double alpha;
 
    public ExponentialMovingAverage( int period, List<Quote> quotes){
+      super( quotes );
       this.period = period;
-      this.quotes = quotes;
    }
    
-   public BigDecimal calculate(){
+   public BigDecimal calculateValue(){
       validate();
       alpha = 2d / (period + 1);
       
@@ -39,6 +38,10 @@ public class ExponentialMovingAverage implements Formula{
       if(quotes.size() < period){
          throw new RuntimeException( "EMA: There are not enough quotes to calculate EMA(" + period + ") Quantity of Quotes: " + quotes.size() );
       }
-      
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( period );
    }
 }

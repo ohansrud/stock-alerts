@@ -5,18 +5,17 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-public class Average implements Formula {
-   private List<Quote> quotes;
+public class Average extends AbstractFormula {
    private int period;
    
 
    public Average(int period, List<Quote> quotes){
+      super( quotes );
       this.period = period;
-      this.quotes = quotes;
    }
 
    @Override
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       double sum = 0;
       for(Quote quote : quotes.subList( 0, period )){
          sum += quote.getClose().doubleValue();
@@ -27,6 +26,11 @@ public class Average implements Formula {
       }else{
          return new BigDecimal( sum );
       }
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( period );
    }
 
 }

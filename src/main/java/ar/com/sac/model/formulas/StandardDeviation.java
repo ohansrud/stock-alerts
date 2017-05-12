@@ -5,22 +5,26 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-public class StandardDeviation implements Formula {
+public class StandardDeviation extends AbstractFormula {
    
-   private List<Quote> quotes;
    private int period;
    
 
    public StandardDeviation( int period, List<Quote> quotes){
+      super( quotes );
       this.period = period;
-      this.quotes = quotes;
    }
 
 
    @Override
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       double variance = new Variance( period, quotes ).calculate().doubleValue();
       return new BigDecimal( Math.sqrt( variance ) );
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( period );
    }
 
 }

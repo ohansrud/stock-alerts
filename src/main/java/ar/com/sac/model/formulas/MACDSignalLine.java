@@ -6,23 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MACDSignalLine implements Formula {
+public class MACDSignalLine extends AbstractFormula {
    
    private int slowPeriod; //12
    private int fastPeriod; //26
    private int signalPeriod; //9
-   private List<Quote> quotes;
-   
 
    public MACDSignalLine( int fastPeriod, int slowPeriod, int signalPeriod, List<Quote> quotes){
+      super( quotes );
       this.fastPeriod = fastPeriod;
       this.slowPeriod = slowPeriod;
       this.signalPeriod = signalPeriod;
-      this.quotes = quotes;
    }
 
    @Override
-   public BigDecimal calculate() {
+   public BigDecimal calculateValue() {
       List<Quote> macdQuotes = new ArrayList<>();
       MACD macd;
       BigDecimal macdValue;
@@ -40,6 +38,11 @@ public class MACDSignalLine implements Formula {
       ExponentialMovingAverage ema = new ExponentialMovingAverage( signalPeriod, macdQuotes );
       
       return ema.calculate();
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( slowPeriod ) + "-" + String.valueOf( fastPeriod ) + "-"  + String.valueOf( signalPeriod );
    }
 
 }

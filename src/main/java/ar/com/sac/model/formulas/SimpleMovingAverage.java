@@ -5,21 +5,20 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-public class SimpleMovingAverage implements Formula {
+public class SimpleMovingAverage extends AbstractFormula {
    
    private int period;
-   private List<Quote> quotes;
 
    /**
     * @param period must be greater than 0
     * @param quotes must be in inverse order: Most recent quote first
     */
    public SimpleMovingAverage( int period, List<Quote> quotes ){
+      super( quotes );
       this.period = period;
-      this.quotes = quotes;
    }
    
-   public BigDecimal calculate(){
+   public BigDecimal calculateValue(){
       validate();
       BigDecimal sum = new BigDecimal( 0 );
       
@@ -34,6 +33,11 @@ public class SimpleMovingAverage implements Formula {
       if(quotes.size() < period){
          throw new RuntimeException( "SMA: There are no quotes to calculate SMA" );
       }
+   }
+   
+   @Override
+   public String getKeySufix(){
+      return String.valueOf( period );
    }
 
 }
