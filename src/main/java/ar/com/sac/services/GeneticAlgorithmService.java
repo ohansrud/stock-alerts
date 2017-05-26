@@ -1,5 +1,6 @@
 package ar.com.sac.services;
 
+import ar.com.sac.model.formulas.FormulasCacheValues;
 import ar.com.sac.model.geneticAlgorithm.ChromosomeTranslator;
 import ar.com.sac.model.geneticAlgorithm.GeneticAlgorithmEvolutionResult;
 import ar.com.sac.model.geneticAlgorithm.GeneticAlgorithmParameters;
@@ -22,6 +23,7 @@ public class GeneticAlgorithmService {
    private SimulatorService simulatorService;
 
    public GeneticAlgorithmResults runGeneticAlgorithm(GeneticAlgorithmParameters parameters) throws InvalidConfigurationException{
+      FormulasCacheValues.getInstance().clearCache();
       Configuration.reset();
       // Start with a DefaultConfiguration, which comes setup with the
       // most common settings.
