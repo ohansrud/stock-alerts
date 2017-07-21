@@ -28,6 +28,9 @@ public class ExponentialMovingAverage extends AbstractFormula{
       Quote quote;
       for(int i = quotes.size()- period - 1; i >= 0; i-- ){
          quote = quotes.get( i );
+         if(quote.getVolume().equals( 0L )){
+            continue;
+         }
          currentEMA = alpha * quote.getClose().doubleValue() + ((1 - alpha) * currentEMA);
       }
       

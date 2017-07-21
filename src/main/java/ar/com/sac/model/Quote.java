@@ -31,7 +31,7 @@ public class Quote {
       this.high = stockQuote.getDayHigh();
       //the current quote has no close price
       this.close = stockQuote.getPrice();
-      this.volume = stockQuote.getVolume();
+      this.volume = stockQuote.getVolume() != null ? stockQuote.getVolume() : 0L;
    }
    
    public Quote(HistoricalQuote historicalQuote){
@@ -40,7 +40,7 @@ public class Quote {
       this.low = historicalQuote.getLow();
       this.high = historicalQuote.getHigh();
       this.close = historicalQuote.getClose();
-      this.volume = historicalQuote.getVolume();
+      this.volume = historicalQuote.getVolume() != null ? historicalQuote.getVolume() : 0L;
    }
    
    @JsonSerialize(using = CalendarSerializer.class)
@@ -55,22 +55,22 @@ public class Quote {
 
    
    public synchronized BigDecimal getOpen() {
-      return open;
+      return open != null ? open : new BigDecimal( -1 );
    }
 
    
    public synchronized BigDecimal getLow() {
-      return low;
+      return low != null ? low : new BigDecimal( -1 );
    }
 
    
    public synchronized BigDecimal getHigh() {
-      return high;
+      return high != null ? high : new BigDecimal( -1 );
    }
 
    
    public synchronized BigDecimal getClose() {
-      return close;
+      return close != null ? close : new BigDecimal( -1 );
    }
 
    

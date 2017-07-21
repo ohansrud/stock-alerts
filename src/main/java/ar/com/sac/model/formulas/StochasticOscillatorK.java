@@ -17,13 +17,17 @@ public class StochasticOscillatorK extends AbstractFormula {
    @Override
    public BigDecimal calculateValue() {
       validate();
-      Quote firstQuote = quotes.get( 0 );
+      Quote firstQuote = getFirstValidQuote();
       double highestHigh = firstQuote.getHigh().doubleValue();
       double lowestLow = firstQuote.getLow().doubleValue();
       
       Quote quote;
       for(int i = 0 ; i < length; i++ ){
          quote = quotes.get( i );
+         if(quote.getVolume().equals( 0L )){
+            continue;
+         }
+         
          if(quote.getLow().doubleValue() < lowestLow){
             lowestLow = quote.getLow().doubleValue();
          }

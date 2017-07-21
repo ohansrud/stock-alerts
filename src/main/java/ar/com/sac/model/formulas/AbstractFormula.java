@@ -40,4 +40,20 @@ public abstract class AbstractFormula implements Formula {
    public String getKeySufix(){
       return "";
    }
+   
+   /**
+    * 
+    * @return first quote with volume > 0
+    */
+   protected Quote getFirstValidQuote() {
+      boolean found = false;
+      int i = 0;
+      while(!found && i < quotes.size()){
+         if( quotes.get( i ).getVolume() > 0L){
+            return quotes.get( i );
+         }
+         i++;
+      }
+      return quotes.get( 0 );
+   }
 }
