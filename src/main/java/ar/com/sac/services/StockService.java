@@ -131,8 +131,13 @@ public class StockService implements IStockService{
 
    private List<Quote> historyToQuotes( List<HistoricalQuote> history ) {
       List<Quote> quotes = new ArrayList<Quote>( history.size() );
+      Quote newQuote;
       for(HistoricalQuote h : history){
-         quotes.add( new Quote(h) );
+         newQuote = new Quote(h);
+         //Only takes in account positive (valid) close prices
+         if( newQuote.getClose().doubleValue() >= 0D ){
+            quotes.add( newQuote );
+         }
       }
       return quotes;
    }

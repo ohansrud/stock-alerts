@@ -34,6 +34,7 @@ public class QuoteDAO extends AbstractDAO<Quote, QuoteId> {
       String queryStr = "Select q From Quote q";
       queryStr += " WHERE q.id.symbol IN :symbols" ;
       queryStr += " AND q.id.date >= :from AND q.id.date <= :to";
+      queryStr += " AND q.close >= 0";
       queryStr += " ORDER BY q.id.date DESC";
       TypedQuery<Quote> query = getEntityManager().createQuery(queryStr, Quote.class);
       query.setParameter( "symbols", Arrays.asList( symbols ) );
