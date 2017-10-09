@@ -26,6 +26,7 @@ Configure your financial alerts from your favorite stock market and receive noti
 * STOCHASTIC_K(14,GOOGL)>STOCHASTIC_D(14,3,GOOGL)
 * PRICE(GOOGL)>AVERAGE(20,GOOGL)
 * BB_LOWER(20,2,GOOGL)&lt;PRICE(GOOGL)&&PRICE(GOOGL)&gt;SMA(20,GOOGL)&&BB_UPPER(20,2,GOOGL)&lt;PRICE(GOOGL)
+* DIFF(EMA(5,GOOGL),EMA(20,GOOGL))>2
 
 ## Formulas
 * __SMA__: Simple Moving Average. Parameters: period and symbol.
@@ -43,6 +44,7 @@ Configure your financial alerts from your favorite stock market and receive noti
 * __STANDARD_DEVIATION__: Price standard deviation in a period. Parameters: period and symbol.
 * __BB_LOWER__: Lower Bollinger Band (trademark). Parameters: period, k and symbol.
 * __BB_UPPER__: Upper Bollinger Band (trademark). Parameters: period, k and symbol.
+* __DIFF__: Difference between 2 formula expressions.
 
 
 ## Operators
