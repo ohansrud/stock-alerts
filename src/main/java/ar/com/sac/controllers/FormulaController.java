@@ -171,4 +171,24 @@ public class FormulaController {
       
       return new ResponseEntity<BigDecimal>( formulaService.getBollingerBandUpper( period, k, symbol ), HttpStatus.OK );
    }
+   
+   @RequestMapping(value= "/atr", method = RequestMethod.GET)
+   public ResponseEntity<BigDecimal> atr(@RequestParam(value = "period", required=false) Integer period, 
+                                          @RequestParam("symbol") String symbol ) throws IOException {
+      if(period == null){
+         period = 14;
+      }
+      
+      return new ResponseEntity<BigDecimal>( formulaService.getAverageTrueRange( period, symbol ), HttpStatus.OK );
+   }
+   
+   @RequestMapping(value= "/atrp", method = RequestMethod.GET)
+   public ResponseEntity<BigDecimal> atrp(@RequestParam(value = "period", required=false) Integer period, 
+                                          @RequestParam("symbol") String symbol ) throws IOException {
+      if(period == null){
+         period = 14;
+      }
+      
+      return new ResponseEntity<BigDecimal>( formulaService.getAverageTrueRangePercentage( period, symbol ), HttpStatus.OK );
+   }
 }

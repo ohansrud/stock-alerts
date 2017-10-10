@@ -166,6 +166,26 @@
              httpGetAsync( url, function( result ){ document.getElementById( "bbUpperResult" ).innerHTML = result;  } );
          }
 
+         function calculateATR( event ){
+        	    //avoids default submit process
+             event.preventDefault();
+             var tickerInput = document.getElementById( "atrTickerSymbol" );
+             var periodInput = document.getElementById( "atrPeriod" );
+             var url = "/stock-alerts/formulas/atr?symbol=" + tickerInput.value + "&period=" + periodInput.value;
+             httpGetAsync( url, function( result ){ document.getElementById( "atrResult" ).innerHTML = '$' + result ;  } );
+         }
+
+         function calculateATRPercentage( event ){
+             //avoids default submit process
+             event.preventDefault();
+             var tickerInput = document.getElementById( "atrpTickerSymbol" );
+             var periodInput = document.getElementById( "atrpPeriod" );
+             var url = "/stock-alerts/formulas/atrp?symbol=" + tickerInput.value + "&period=" + periodInput.value;
+             httpGetAsync( url, function( result ){ document.getElementById( "atrpResult" ).innerHTML = result + '%' ;  } );
+         }
+
+         
+
       </script>
    </head>
    
@@ -492,7 +512,7 @@
                    <label for="bbUpperTickerSymbol">Ticker Symbol</label>
                    <input type="text" class="form-control" id="bbUpperTickerSymbol" placeholder="TSLA" required data-minK="1">
                  </div>
-             <div class="form-group">
+                 <div class="form-group">
                     <label for="bbUpperPeriod">Period</label>
                     <input class="form-control" type="number"  min="1" value="20" id="bbUpperPeriod">
                  </div>
@@ -504,6 +524,48 @@
                    <button type="submit" class="btn btn-primary">Calculate</button>
                  </div>
                  <div class="form-group" id="bbUpperResult"></div>
+               </form>
+            </div>
+         </div>
+         
+          <div class="panel panel-default">
+            <div class="panel-heading">Average True Range</div>
+            <div class="panel-body">
+               <form data-toggle="validator" class="form-inline" name="atrForm"  id="atrForm" 
+                     onsubmit="calculateATR(event)">
+                 <div class="form-group">
+                   <label for="atrTickerSymbol">Ticker Symbol</label>
+                   <input type="text" class="form-control" id="atrTickerSymbol" placeholder="TSLA" required data-minlength="1">
+                 </div>
+                 <div class="form-group">
+                    <label for="atrPeriod">Period</label>
+                    <input class="form-control" type="number"  min="2" value="14" id="atrPeriod">
+                 </div>
+                 <div class="form-group">
+                   <button type="submit" class="btn btn-primary">Calculate</button>
+                 </div>
+                 <div class="form-group" id="atrResult"></div>
+               </form>
+            </div>
+         </div>
+         
+         <div class="panel panel-default">
+            <div class="panel-heading">Average True Range Percentage</div>
+            <div class="panel-body">
+               <form data-toggle="validator" class="form-inline" name="atrpForm"  id="atrpForm" 
+                     onsubmit="calculateATRPercentage(event)">
+                 <div class="form-group">
+                   <label for="atrpTickerSymbol">Ticker Symbol</label>
+                   <input type="text" class="form-control" id="atrpTickerSymbol" placeholder="TSLA" required data-minlength="1">
+                 </div>
+                 <div class="form-group">
+                    <label for="atrpPeriod">Period</label>
+                    <input class="form-control" type="number"  min="2" value="14" id="atrpPeriod">
+                 </div>
+                 <div class="form-group">
+                   <button type="submit" class="btn btn-primary">Calculate</button>
+                 </div>
+                 <div class="form-group" id="atrpResult"></div>
                </form>
             </div>
          </div>

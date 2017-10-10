@@ -2,6 +2,8 @@ package ar.com.sac.services;
 
 import ar.com.sac.model.Quote;
 import ar.com.sac.model.formulas.Average;
+import ar.com.sac.model.formulas.AverageTrueRange;
+import ar.com.sac.model.formulas.AverageTrueRangePercentage;
 import ar.com.sac.model.formulas.BollingerBandLower;
 import ar.com.sac.model.formulas.BollingerBandUpper;
 import ar.com.sac.model.formulas.ExponentialMovingAverage;
@@ -110,5 +112,14 @@ public class FormulaService {
       return new BollingerBandLower( period, k, quotes ).calculate();
    }
    
+   public BigDecimal getAverageTrueRange(int period, String symbol) throws IOException{
+      List<Quote> quotes = stockService.getHistory( symbol );
+      return new AverageTrueRange( period, quotes ).calculate();
+   }
+   
+   public BigDecimal getAverageTrueRangePercentage(int period, String symbol) throws IOException{
+      List<Quote> quotes = stockService.getHistory( symbol );
+      return new AverageTrueRangePercentage( period, quotes ).calculate();
+   }
 
 }

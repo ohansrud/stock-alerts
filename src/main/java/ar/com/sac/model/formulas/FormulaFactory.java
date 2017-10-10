@@ -13,7 +13,7 @@ public class FormulaFactory {
       Quote quote;
       int firstParenthesis = expression.indexOf( "(" );
       int lastParenthesis = expression.lastIndexOf( ")" );
-      if (firstParenthesis < 0){
+      if (firstParenthesis < 0 || lastParenthesis < 0){
          throw new RuntimeException( expression + " is not a valid formula expression" );
       }
       String formulaName = expression.substring( 0 , firstParenthesis );
@@ -77,6 +77,12 @@ public class FormulaFactory {
          result = new BollingerBandUpper( Integer.parseInt( params[0] ), Integer.parseInt( params[1] ), quotes );
       }else if(formulaName.equals( "DIFF" )){
          result = new Difference( getFormula(params[0], stockService), getFormula(params[1], stockService) );
+      }else if(formulaName.equals( "ATR" )){
+         quotes = getQuotes(stockService, params[1]);
+         result = new AverageTrueRange( Integer.parseInt( params[0] ), quotes );
+      }else if(formulaName.equals( "ATRP" )){
+         quotes = getQuotes(stockService, params[1]);
+         result = new AverageTrueRangePercentage( Integer.parseInt( params[0] ), quotes );
       }else{
          throw new RuntimeException("Unknwon Formula: " + expression);
       }
