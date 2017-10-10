@@ -27,6 +27,8 @@ Configure your financial alerts from your favorite stock market and receive noti
 * PRICE(GOOGL)>AVERAGE(20,GOOGL)
 * BB_LOWER(20,2,GOOGL)&lt;PRICE(GOOGL)&&PRICE(GOOGL)&gt;SMA(20,GOOGL)&&BB_UPPER(20,2,GOOGL)&lt;PRICE(GOOGL)
 * DIFF(EMA(5,GOOGL),EMA(20,GOOGL))>2
+* ATR(14,GOOGL)>1
+* ATRP(14,GOOGL)>2
 
 ## Formulas
 * __SMA__: Simple Moving Average. Parameters: period and symbol.
@@ -45,6 +47,8 @@ Configure your financial alerts from your favorite stock market and receive noti
 * __BB_LOWER__: Lower Bollinger Band (trademark). Parameters: period, k and symbol.
 * __BB_UPPER__: Upper Bollinger Band (trademark). Parameters: period, k and symbol.
 * __DIFF__: Difference between 2 formula expressions.
+* __ATR__: Average True Range. Parameters: period and symbol.
+* __ATRP__: Average True Range Percentage. Parameters: period and symbol.
 
 
 ## Operators
@@ -115,6 +119,10 @@ Configure your financial alerts from your favorite stock market and receive noti
 * GET /stock-alerts/formulas/bbupper?period=20&k=2&symbol=GOOGL 
   * period parameter is optional, default value is 20
   * k parameter is optional, default value is 2
+* GET /stock-alerts/formulas/atr?period=14&symbol=GOOGL 
+  * period parameter is optional, default value is 14
+* GET /stock-alerts/formulas/atrp?period=14&symbol=GOOGL 
+  * period parameter is optional, default value is 14
 
 #### Alerts
 * GET /stock-alerts/alerts
