@@ -27,6 +27,8 @@ Configure your financial alerts from your favorite stock market and receive noti
 * PRICE(GOOGL)>AVERAGE(20,GOOGL)
 * BB_LOWER(20,2,GOOGL)&lt;PRICE(GOOGL)&&PRICE(GOOGL)&gt;SMA(20,GOOGL)&&BB_UPPER(20,2,GOOGL)&lt;PRICE(GOOGL)
 * DIFF(EMA(5,GOOGL),EMA(20,GOOGL))>2
+* STANDARD_DEVIATION(14,GOOGL)>1
+* STANDARD_DEVIATION_PERCENTAGE(14,GOOGL)>2
 * ATR(14,GOOGL)>1
 * ATRP(14,GOOGL)>2
 
@@ -44,6 +46,7 @@ Configure your financial alerts from your favorite stock market and receive noti
 * __AVERAGE__: Price average in a period. Parameters: period and symbol.
 * __VARIANCE__: Price variance in a period. Parameters: period and symbol.
 * __STANDARD_DEVIATION__: Price standard deviation in a period. Parameters: period and symbol.
+* __STANDARD_DEVIATION_PERCENTAGE__: Percentage of standard deviation in a period. Parameters: period and symbol.
 * __BB_LOWER__: Lower Bollinger Band (trademark). Parameters: period, k and symbol.
 * __BB_UPPER__: Upper Bollinger Band (trademark). Parameters: period, k and symbol.
 * __DIFF__: Difference between 2 formula expressions.
