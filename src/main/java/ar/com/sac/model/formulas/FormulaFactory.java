@@ -69,6 +69,9 @@ public class FormulaFactory {
       }else if(formulaName.equals( "STANDARD_DEVIATION" )){
          quotes = getQuotes(stockService, params[1]);
          result = new StandardDeviation( Integer.parseInt( params[0] ), quotes );
+      }else if(formulaName.equals( "STANDARD_DEVIATION_PERCENTAGE" )){
+         quotes = getQuotes(stockService, params[1]);
+         result = new StandardDeviationPercentage( Integer.parseInt( params[0] ), quotes );
       }else if(formulaName.equals( "BB_LOWER" )){
          quotes = getQuotes(stockService, params[2]);
          result = new BollingerBandLower( Integer.parseInt( params[0] ), Integer.parseInt( params[1] ), quotes );

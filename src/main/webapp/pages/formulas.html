@@ -68,6 +68,15 @@
              httpGetAsync( url, function( result ){ document.getElementById( "standardDeviationResult" ).innerHTML = '$' + result;  } );
          }
 
+         function calculateStandardDeviationPercentage( event ){
+             //avoids default submit process
+             event.preventDefault();
+             var tickerInput = document.getElementById( "sdpTickerSymbol" );
+             var periodInput = document.getElementById( "sdpPeriod" );
+             var url = "/stock-alerts/formulas/sdp?symbol=" + tickerInput.value + "&period=" + periodInput.value;
+             httpGetAsync( url, function( result ){ document.getElementById( "sdpResult" ).innerHTML =  result + '%';  } );
+         }
+
          function calculateSMA( event ){
              //avoids default submit process
              event.preventDefault();
@@ -153,7 +162,7 @@
              var kInput = document.getElementById( "bbLowerK" );
              var periodInput = document.getElementById( "bbLowerPeriod" );
              var url = "/stock-alerts/formulas/bblower?symbol=" + tickerInput.value + "&k=" + kInput.value + "&period=" + periodInput.value;
-             httpGetAsync( url, function( result ){ document.getElementById( "bbLowerResult" ).innerHTML = result;  } );
+             httpGetAsync( url, function( result ){ document.getElementById( "bbLowerResult" ).innerHTML = '$' + result;  } );
          }
 
          function calculateBBUpper( event ){
@@ -163,7 +172,7 @@
              var kInput = document.getElementById( "bbUpperK" );
              var periodInput = document.getElementById( "bbUpperPeriod" );
              var url = "/stock-alerts/formulas/bbupper?symbol=" + tickerInput.value + "&k=" + kInput.value + "&period=" + periodInput.value;
-             httpGetAsync( url, function( result ){ document.getElementById( "bbUpperResult" ).innerHTML = result;  } );
+             httpGetAsync( url, function( result ){ document.getElementById( "bbUpperResult" ).innerHTML = '$' + result;  } );
          }
 
          function calculateATR( event ){
@@ -282,6 +291,27 @@
                    <button type="submit" class="btn btn-primary">Calculate</button>
                  </div>
                  <div class="form-group" id="standardDeviationResult"></div>
+               </form>
+            </div>
+         </div>
+         
+         <div class="panel panel-default">
+            <div class="panel-heading">Standard Deviation Percentage</div>
+            <div class="panel-body">
+               <form data-toggle="validator" class="form-inline" name="sdpForm"  id="sdpForm" 
+                     onsubmit="calculateStandardDeviationPercentage(event)">
+                 <div class="form-group">
+                   <label for="sdpTickerSymbol">Ticker Symbol</label>
+                   <input type="text" class="form-control" id="sdpTickerSymbol" placeholder="TSLA" required data-minlength="1">
+                 </div>
+                 <div class="form-group">
+                    <label for="sdpPeriod">Period</label>
+                    <input class="form-control" type="number"  min="1" value="20" id="sdpPeriod">
+                  </div>
+                 <div class="form-group">
+                   <button type="submit" class="btn btn-primary">Calculate</button>
+                 </div>
+                 <div class="form-group" id="sdpResult"></div>
                </form>
             </div>
          </div>

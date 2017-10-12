@@ -14,6 +14,7 @@ import ar.com.sac.model.formulas.Price;
 import ar.com.sac.model.formulas.RelativeStrengthIndex;
 import ar.com.sac.model.formulas.SimpleMovingAverage;
 import ar.com.sac.model.formulas.StandardDeviation;
+import ar.com.sac.model.formulas.StandardDeviationPercentage;
 import ar.com.sac.model.formulas.StochasticOscillatorD;
 import ar.com.sac.model.formulas.StochasticOscillatorK;
 import ar.com.sac.model.formulas.Variance;
@@ -42,6 +43,11 @@ public class FormulaService {
    public BigDecimal getStandardDeviation(int period, String symbol) throws IOException{
       List<Quote> quotes  = stockService.getHistory( symbol );
       return new StandardDeviation(period, quotes ).calculate();
+   }
+
+   public BigDecimal getStandardDeviationPercentage(int period, String symbol) throws IOException{
+      List<Quote> quotes = stockService.getHistory( symbol );
+      return new StandardDeviationPercentage( period, quotes ).calculate();
    }
    
    public BigDecimal getSMA(int period, String symbol) throws IOException{
@@ -121,5 +127,6 @@ public class FormulaService {
       List<Quote> quotes = stockService.getHistory( symbol );
       return new AverageTrueRangePercentage( period, quotes ).calculate();
    }
+   
 
 }
