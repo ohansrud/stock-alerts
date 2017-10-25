@@ -200,4 +200,14 @@ public class FormulaController {
       
       return new ResponseEntity<String>( df.format( formulaService.getAverageTrueRangePercentage( period, symbol )), HttpStatus.OK );
    }
+   
+   @RequestMapping(value= "/roc", method = RequestMethod.GET)
+   public ResponseEntity<String> roc(@RequestParam(value = "period", required=false) Integer period, 
+                                          @RequestParam("symbol") String symbol ) throws IOException {
+      if(period == null){
+         period = 14;
+      }
+      
+      return new ResponseEntity<String>( df.format( formulaService.getRateOfChange( period, symbol )), HttpStatus.OK );
+   }
 }

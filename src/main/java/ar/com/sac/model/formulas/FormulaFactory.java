@@ -86,8 +86,11 @@ public class FormulaFactory {
       }else if(formulaName.equals( "ATRP" )){
          quotes = getQuotes(stockService, params[1]);
          result = new AverageTrueRangePercentage( Integer.parseInt( params[0] ), quotes );
+      }else if(formulaName.equals( "ROC" )){
+         quotes = getQuotes(stockService, params[1]);
+         result = new RateOfChange( Integer.parseInt( params[0] ), quotes );
       }else{
-         throw new RuntimeException("Unknwon Formula: " + expression);
+         throw new RuntimeException("Unknown Formula: " + expression);
       }
       return result;
    }

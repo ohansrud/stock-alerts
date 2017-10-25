@@ -106,6 +106,15 @@
              httpGetAsync( url, function( result ){ document.getElementById( "rsiResult" ).innerHTML = result;  } );
          }
 
+         function calculateROC( event ){
+             //avoids default submit process
+             event.preventDefault();
+             var tickerInput = document.getElementById( "rocTickerSymbol" );
+             var periodInput = document.getElementById( "rocPeriod" );
+             var url = "/stock-alerts/formulas/roc?symbol=" + tickerInput.value + "&period=" + periodInput.value;
+             httpGetAsync( url, function( result ){ document.getElementById( "rocResult" ).innerHTML = result + '%';  } );
+         }
+
          function calculateMACD( event ){
              //avoids default submit process
              event.preventDefault();
@@ -145,7 +154,7 @@
              var lengthInput = document.getElementById( "stochasticDLength" );
              var periodInput = document.getElementById( "stochasticDPeriod" );
              var url = "/stock-alerts/formulas/stochasticd?symbol=" + tickerInput.value + "&length=" + lengthInput.value + "&period=" + periodInput.value;
-             httpGetAsync( url, function( result ){ document.getElementById( "stochasticDResult" ).innerHTML = result;  } );
+             httpGetAsync( url, function( result ){ document.getElementById( "stochasticDResult" ).innerHTML = result + '%';  } );
          }
 
          function calculateStochasticK( event ){
@@ -154,7 +163,7 @@
              var tickerInput = document.getElementById( "stochasticKTickerSymbol" );
              var lengthInput = document.getElementById( "stochasticKLength" );
              var url = "/stock-alerts/formulas/stochastick?symbol=" + tickerInput.value + "&length=" + lengthInput.value;
-             httpGetAsync( url, function( result ){ document.getElementById( "stochasticKResult" ).innerHTML = result;  } );
+             httpGetAsync( url, function( result ){ document.getElementById( "stochasticKResult" ).innerHTML = result + '%';  } );
          }
 
          function calculateBBLower( event ){
@@ -524,26 +533,54 @@
               <h3 class="panel-title">Momentum</h3>
             </div>
             <div class="panel-body">
-	            <div class="panel panel-default">
-	               <div class="panel-heading">Relative Strength Index - RSI</div>
-	               <div class="panel-body">
-	                  <form data-toggle="validator" class="form" name="rsiForm"  id="rsiForm" 
-	                        onsubmit="calculateRSI(event)">
-	                    <div class="form-group">
-	                      <label for="rsiTickerSymbol">Ticker Symbol</label>
-	                      <input type="text" class="form-control" id="rsiTickerSymbol" placeholder="TSLA" required data-minlength="1">
-	                    </div>
-	                    <div class="form-group">
-	                       <label for="rsiPeriod">Period</label>
-	                       <input class="form-control" type="number"  min="1" value="14" id="rsiPeriod">
-	                     </div>
-	                    <div class="form-group">
-	                      <button type="submit" class="btn btn-primary">Calculate</button>
-	                    </div>
-	                    <div class="form-group formula-result" id="rsiResult"></div>
-	                  </form>
-	               </div>
-	            </div>
+            
+            <div class="row">
+               <div class="col-md-6">
+		            <div class="panel panel-default">
+		               <div class="panel-heading">Relative Strength Index - RSI</div>
+		               <div class="panel-body">
+		                  <form data-toggle="validator" class="form" name="rsiForm"  id="rsiForm" 
+		                        onsubmit="calculateRSI(event)">
+		                    <div class="form-group">
+		                      <label for="rsiTickerSymbol">Ticker Symbol</label>
+		                      <input type="text" class="form-control" id="rsiTickerSymbol" placeholder="TSLA" required data-minlength="1">
+		                    </div>
+		                    <div class="form-group">
+		                       <label for="rsiPeriod">Period</label>
+		                       <input class="form-control" type="number"  min="1" value="14" id="rsiPeriod">
+		                     </div>
+		                    <div class="form-group">
+		                      <button type="submit" class="btn btn-primary">Calculate</button>
+		                    </div>
+		                    <div class="form-group formula-result" id="rsiResult"></div>
+		                  </form>
+		               </div>
+		            </div>
+		          </div>
+		          
+		          <div class="col-md-6">
+                  <div class="panel panel-default">
+                     <div class="panel-heading">Rate Of Change - ROC</div>
+                     <div class="panel-body">
+                        <form data-toggle="validator" class="form" name="rocForm"  id="rocForm" 
+                              onsubmit="calculateROC(event)">
+                          <div class="form-group">
+                            <label for="rocTickerSymbol">Ticker Symbol</label>
+                            <input type="text" class="form-control" id="rocTickerSymbol" placeholder="TSLA" required data-minlength="1">
+                          </div>
+                          <div class="form-group">
+                             <label for="rocPeriod">Period</label>
+                             <input class="form-control" type="number"  min="1" value="14" id="rocPeriod">
+                           </div>
+                          <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Calculate</button>
+                          </div>
+                          <div class="form-group formula-result" id="rocResult"></div>
+                        </form>
+                     </div>
+                  </div>
+                </div>
+		       </div> <!-- End OF ROW -->
 	            
 	          <div class="row">
                <div class="col-md-4">

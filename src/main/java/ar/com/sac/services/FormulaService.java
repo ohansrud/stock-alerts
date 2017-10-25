@@ -11,6 +11,7 @@ import ar.com.sac.model.formulas.MACD;
 import ar.com.sac.model.formulas.MACDHistogram;
 import ar.com.sac.model.formulas.MACDSignalLine;
 import ar.com.sac.model.formulas.Price;
+import ar.com.sac.model.formulas.RateOfChange;
 import ar.com.sac.model.formulas.RelativeStrengthIndex;
 import ar.com.sac.model.formulas.SimpleMovingAverage;
 import ar.com.sac.model.formulas.StandardDeviation;
@@ -126,6 +127,11 @@ public class FormulaService {
    public BigDecimal getAverageTrueRangePercentage(int period, String symbol) throws IOException{
       List<Quote> quotes = stockService.getHistory( symbol );
       return new AverageTrueRangePercentage( period, quotes ).calculate();
+   }
+   
+   public BigDecimal getRateOfChange(int period, String symbol) throws IOException{
+      List<Quote> quotes = stockService.getHistory( symbol );
+      return new RateOfChange( period, quotes ).calculate();
    }
    
 
