@@ -1,6 +1,6 @@
 # stock-alerts
 
-Configure your financial alerts from your favorite stock market and receive notifications by email when their expressions are evaluated as true. "stock-alerts" is your personal technical analyst and adviser using your own rules. 
+Configure your financial alerts from your favorite stock market and receive notifications by email when their expressions are evaluated as true. Every expression is a set of technical indicators evaluated on quotes from your portfolio defined by you. "Stock-Alerts" is your personal technical analyst and adviser using your own rules. 
 
 ## Features
 * Uses Yahoo Finance API (you can use all his ticker symbols)
@@ -31,6 +31,7 @@ Configure your financial alerts from your favorite stock market and receive noti
 * STANDARD_DEVIATION_PERCENTAGE(14,GOOGL)>2
 * ATR(14,GOOGL)>1
 * ATRP(14,GOOGL)>2
+* ROC(14,TSLA)>0
 
 ## Formulas
 * __SMA__: Simple Moving Average. Parameters: period and symbol.
@@ -52,6 +53,7 @@ Configure your financial alerts from your favorite stock market and receive noti
 * __DIFF__: Difference between 2 formula expressions.
 * __ATR__: Average True Range. Parameters: period and symbol.
 * __ATRP__: Average True Range Percentage. Parameters: period and symbol.
+* __ROC__: Rate of Change percentage based on closed price. Parameters: period and symbol.
 
 
 ## Operators
@@ -126,6 +128,9 @@ Configure your financial alerts from your favorite stock market and receive noti
   * period parameter is optional, default value is 14
 * GET /stock-alerts/formulas/atrp?period=14&symbol=GOOGL 
   * period parameter is optional, default value is 14
+* GET /stock-alerts/formulas/roc?period=14&symbol=GOOGL 
+  * period parameter is optional, default value is 14
+
 
 #### Alerts
 * GET /stock-alerts/alerts
