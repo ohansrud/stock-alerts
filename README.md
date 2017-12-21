@@ -209,6 +209,7 @@ Configure your financial alerts from your favorite stock market and receive noti
    "buyExpression": "MACD(12,26,[SYMBOL])>MACD_SIGNAL_LINE(12,26,9,[SYMBOL])",
    "sellExpression": "MACD(12,26,[SYMBOL])<MACD_SIGNAL_LINE(12,26,9,[SYMBOL])",
    "stopLossPercentage" :  2,
+   "positionTimeoutDays" : 360,
    "symbols": ["GOOGL","AAPL","TSLA"],
    "yearFrom": 2016,
    "yearTo": 2017,
