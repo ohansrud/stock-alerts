@@ -12,10 +12,12 @@ public class SimulatorParameters {
    private String buyExpression;
    private String sellExpression;
    private double stopLossPercentage;
+   private int positionTimeoutDays;
    private String[] symbols;
    private int yearFrom = Calendar.getInstance().get(Calendar.YEAR) - 5;
    private int yearTo = Calendar.getInstance().get(Calendar.YEAR);
    private int previousDaysOfAnalysis = 50;
+   
    
    /**
     * @return the previousDaysOfAnalysis
@@ -190,6 +192,14 @@ public class SimulatorParameters {
       this.yearTo = yearTo;
    }
 
+   public int getPositionTimeoutDays() {
+      return positionTimeoutDays;
+   }
+   
+   
+   public void setPositionTimeoutDays( int positionTimeoutDays ) {
+      this.positionTimeoutDays = positionTimeoutDays;
+   }
 
    public static SimulatorParameters createDefault() {
       SimulatorParameters parameters = new SimulatorParameters();
@@ -199,10 +209,13 @@ public class SimulatorParameters {
       parameters.positionMinimumValue = 20000;
       parameters.positionPercentage = 20;
       parameters.stopLossPercentage = 10;
+      parameters.positionTimeoutDays = 360;
       parameters.symbols = new String[]{ "COKE","AAPL","GOOGL","TSLA" };
       parameters.buyExpression = "STOCHASTIC_K(14,[SYMBOL])>STOCHASTIC_D(14,3,[SYMBOL])";
       parameters.sellExpression = "STOCHASTIC_K(14,[SYMBOL])<STOCHASTIC_D(14,3,[SYMBOL])&&[OPERATION_PERFORMANCE_PERCENTAGE]>3";
       return parameters;
    }
+
+
    
 }

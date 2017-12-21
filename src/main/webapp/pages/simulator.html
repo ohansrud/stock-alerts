@@ -57,6 +57,7 @@
              bodyObject.buyExpression = getValue("buyExpression");
              bodyObject.sellExpression = getValue("sellExpression");
              bodyObject.stopLossPercentage = getValue("stopLossPercentage");
+             bodyObject.positionTimeoutDays = getValue("positionTimeoutDays");
              var tickerInput = document.getElementById( "tickerSymbols" );
              bodyObject.symbols = tickerInput.value.replace(/\s/g,'').split(",");
              bodyObject.yearFrom = getValue("yearFrom");
@@ -198,17 +199,21 @@
 							id="stopLossPercentage" step="any">
 					</div>
 					<div class="form-group">
+                  <label for="positionTimeoutDays">Position Timeout in Days</label>
+                  <input class="form-control" type="number" min="1" value="360" id="positionTimeoutDays">
+               </div>
+					<div class="form-group">
 						<label for="tickerSymbols">Ticker Symbols</label> <input type="text"
 							class="form-control" id="tickerSymbols" placeholder="TSLA, AAPL"
 							required data-minlength="1">
 					</div>
 					<div class="form-group">
 						<label for="yearFrom">Year From</label> <input class="form-control"
-							type="number" min="1" value="2016" id="yearFrom">
+							type="number" min="1" value="2017" id="yearFrom">
 					</div>
 					<div class="form-group">
 						<label for="yearTo">Year To</label> <input class="form-control"
-							type="number" min="1" value="2017" id="yearTo">
+							type="number" min="1" value="2018" id="yearTo">
 					</div>
 					<div class="form-group">
 						<label for="previousDaysOfAnalysis">Previous Days of

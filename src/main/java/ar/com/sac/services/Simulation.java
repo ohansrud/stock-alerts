@@ -169,7 +169,8 @@ public class Simulation {
    }
 
    private boolean trySell() throws IOException {
-      if( positionsMap.get( currentSymbol ) == null ) {
+      SimulatorRecord positionRecord = positionsMap.get( currentSymbol );
+      if( positionRecord == null ) {
          return false; //There is NOT a position on this symbol
       }
       if(isVacationDay( currentSymbol )){
@@ -178,10 +179,18 @@ public class Simulation {
       
       boolean sold = false;
       Operator operator = expressionService.parseSimulatorExpression( parameters.getSellExpression(), this, stockSimulatorService );
+      SimulatorRecord sellRecord = null;
       try{
+         //Sell via SELL EXPRESSION
          if( operator.evaluate() ){
-            SimulatorRecord sellRecord = sell();
+            sellRecord = sell();
            
+         } else if( daysBetween(positionRecord.getOrderDate(), currentLastQuote.getDate()) > parameters.getPositionTimeoutDays()){
+          //Sell via TIMEOUT
+            sellRecord = sell();
+            sellRecord.setOrderType( "Sell on TimeOut" );
+         }
+         if ( sellRecord != null ){
             simulationResults.addRecord( sellRecord );
             positionsMap.put( currentSymbol, null );
             lastSimulatorRecord = sellRecord;
@@ -191,6 +200,8 @@ public class Simulation {
       }catch(Exception e){
          
       }
+      
+      
       return sold;
    }
 
