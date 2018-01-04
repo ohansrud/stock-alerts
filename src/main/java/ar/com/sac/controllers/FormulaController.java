@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
 @RestController
-@RequestMapping("/formulas")
+@RequestMapping("/stock-alerts/formulas")
 public class FormulaController {
    @Autowired
    private FormulaService formulaService;

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
 @RestController
-@RequestMapping("/emails")
+@RequestMapping("/stock-alerts/emails")
 public class EmailController {
    
    @Autowired

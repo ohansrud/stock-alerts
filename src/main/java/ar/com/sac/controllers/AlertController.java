@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
 @RestController
-@RequestMapping("/alerts")
+@RequestMapping("/stock-alerts/alerts")
 public class AlertController {
    
    @Autowired

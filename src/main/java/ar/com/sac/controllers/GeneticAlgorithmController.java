@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
 @RestController
-@RequestMapping("/genetic-algorithm")
+@RequestMapping("/stock-alerts/genetic-algorithm")
 public class GeneticAlgorithmController {
       
       @Autowired

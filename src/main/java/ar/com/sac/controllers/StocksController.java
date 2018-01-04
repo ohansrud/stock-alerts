@@ -26,7 +26,7 @@ import yahoofinance.YahooFinance;
 
 @EnableWebMvc
 @RestController
-@RequestMapping("/stocks")
+@RequestMapping("/stock-alerts/stocks")
 public class StocksController {
    
    @Autowired

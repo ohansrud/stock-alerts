@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
 @RestController
-@RequestMapping("/simulator")
+@RequestMapping("/stock-alerts/simulator")
 public class SimulatorController {
    
    @Autowired
