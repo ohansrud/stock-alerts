@@ -83,6 +83,18 @@ public class Alert {
    public void setId( String id ) {
       this.id = id;
    }
-   
 
+   public Alert copy() {
+      Alert newAlert = new Alert();
+      newAlert.setId(this.getId());
+      newAlert.setActive(this.getActive());
+      newAlert.setExpression(this.getExpression());
+      newAlert.setName(this.getName());
+      newAlert.setDescription(this.getDescription());
+      newAlert.setSendEmail(this.getSendEmail());
+      newAlert.setSymbol(this.getSymbol());
+      newAlert.setOpposedAlertId(this.getOpposedAlertId());
+
+      return newAlert;
+   }
 }
