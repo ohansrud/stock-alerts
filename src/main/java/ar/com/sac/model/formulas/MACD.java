@@ -25,6 +25,17 @@ public class MACD extends AbstractFormula {
       BigDecimal emaSlow = new ExponentialMovingAverage( slowPeriod, quotes ).calculate();
       return emaFast.subtract( emaSlow );
    }
+
+   public BigDecimal calculateHistoricValue(Integer skip) {
+      List<Quote> subList = quotes.subList(skip, quotes.size());
+
+      if(fastPeriod >= slowPeriod){
+         return new BigDecimal(0d);
+      }
+      BigDecimal emaFast = new ExponentialMovingAverage( fastPeriod, subList ).calculate();
+      BigDecimal emaSlow = new ExponentialMovingAverage( slowPeriod, subList ).calculate();
+      return emaFast.subtract( emaSlow );
+   }
    
    @Override
    public String getKeySufix(){

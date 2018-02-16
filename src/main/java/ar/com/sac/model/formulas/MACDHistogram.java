@@ -24,7 +24,19 @@ public class MACDHistogram extends AbstractFormula{
       MACDSignalLine macdSignalLine = new MACDSignalLine( fastPeriod, slowPeriod, signalPeriod, quotes );
       return macd.calculate().subtract( macdSignalLine.calculate() );
    }
-   
+
+   public BigDecimal calculateHistoricValue(Integer skip) {
+      List<Quote> subList = quotes.subList(skip, quotes.size());
+
+      if(fastPeriod >= slowPeriod){
+         return new BigDecimal(0d);
+      }
+      MACD macd = new MACD( fastPeriod, slowPeriod, quotes );
+      MACDSignalLine macdSignalLine = new MACDSignalLine( fastPeriod, slowPeriod, signalPeriod, subList );
+      return macd.calculate().subtract( macdSignalLine.calculate() );
+   }
+
+
    @Override
    public String getKeySufix(){
       return String.valueOf( slowPeriod ) + "-" + String.valueOf( fastPeriod ) + "-"  + String.valueOf( signalPeriod );

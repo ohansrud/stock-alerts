@@ -54,6 +54,9 @@ public class FormulaFactory {
       }else if(formulaName.equals( "MACD" )){
          quotes = getQuotes( stockService, params[2] );
          result = new MACD( Integer.parseInt( params[0] ), Integer.parseInt( params[1] ), quotes );
+      }else if(formulaName.equals( "MACD_CROSS" )){
+         quotes = getQuotes( stockService, params[3] );
+         result = new MACDCross( Integer.parseInt( params[0] ), Integer.parseInt( params[1] ), Integer.parseInt( params[2] ), quotes );
       }else if(formulaName.equals( "STOCHASTIC_K" )){
          quotes = getQuotes( stockService, params[1] );
          result = new StochasticOscillatorK( Integer.parseInt( params[0] ), quotes );

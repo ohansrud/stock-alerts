@@ -60,20 +60,32 @@ public class AlertService {
    public List<Notification> processAlerts( List<Alert> alerts ){
       List<Notification> notifications = new ArrayList<Notification>();
       StringBuilder sb = new StringBuilder();
-      String[] stocks = new String[]{"AAPL", "TSLA"};
-
-      String[] stocks2 = new String[] {"ASC.OL","APCL.OL","AFG.OL","AGA.OL","AKA.OL","AKER.OL","AKPS.OL","AKSO.OL",
+//      String[] stocks = new String[]{"AAPL", "TSLA"};
+/*
+      String[] stocks = new String[] {"ASC.OL","APCL.OL","AFG.OL","AGA.OL","AKA.OL","AKER.OL","AKPS.OL","AKSO.OL",
               "AKVA.OL","AMSC.OL","ABT.OL","ARCHER.OL","AFK.OL","ASETEK.OL","ATEA.OL","AURLPG.OL","AUSS.OL","AVANCE.OL","AVM.OL","AWDR.OL","BAKKA.OL","BEL.OL",
               "BERGEN.OL","BIONOR.OL","BIOTEC.OL","BIRD.OL","BLO.OL","BON.OL","BRG.OL","BWLPG.OL","BWO.OL","BMA.OL","CECON.OL","DAT.OL","DESSC.OL",
-              "DETNOR.OL","DNB.OL","DNO.OL","DOF.OL","DOLP.OL","EAM.OL","ECHEM.OL","EKO.OL","EMGS.OL","ELT.OL","EMAS.OL","ENTRA.OL","EVRY.OL","FAR.OL","FLNG.OL",
-              "FOE.OL","FRO.OL","FUNCOM.OL","GRO.OL","GJF.OL","GOGL.OL","GOD.OL","GSF.OL","HNB.OL","HFISK.OL","HAVI.OL","HEX.OL","HBC.OL","HLNG.OL","IDEX.OL",
-              "IOX.OL","ITX.OL","IMSK.OL","JIN.OL","KOA.OL","KOG.OL","KVAER.OL","LSG.OL","MHG.OL","NAPA.OL","NATTO.OL","NAVA.OL","NEL.OL","NEXT.OL","NMG.OL",
-              "NIO.OL","NOM.OL","NOD.OL","NSG.OL","NHY.OL","NOF.OL","NRS.OL","NAS.OL","NOR.OL","NPRO.OL","NTS.OL","OCY.OL","ODL.OL","ODF.OL","ODFB.OL","OLT.OL",
-              "OPERA.OL","ORK.OL","PEN.OL","PCIB.OL","PGS.OL","PDR.OL","PHO.OL","PLCS.OL","POL.OL","PRS.OL","PROS.OL","PROTCT.OL","PSI.OL","QFR.OL","QEC.OL","RAKP.OL",
-              "REC.OL","RECSOL.OL","RENO.OL","REPANT.OL","RGT.OL","RCL.OL","SALM.OL","SCI.OL","SSHIP.OL","SSO.OL","SCH.OL",
-              "SDRL.OL","SBO.OL","SENDEX.OL","SER.OL","SEVDR.OL","SEVAN.OL","SIOFF.OL","SKI.OL","SOFF.OL","SOLV.OL","SONG.OL","SRBANK.OL","SPU.OL","STL.OL","SNI.OL",
-              "STB.OL","STORM.OL","SUBC.OL","TIL.OL","TEL.OL","TELIO.OL","TGS.OL","SSC.OL","THIN.OL","TOM.OL","TTS.OL","VARDIA.OL","VEI.OL","VIZ.OL","WEIFA.OL","WRL.OL",
-              "WBULK.OL","WWASA.OL","WWI.OL","WWIB.OL","XXL.OL","YAR.OL","ZAL.OL","ZONC.OL"};
+              "DETNOR.OL","DNB.OL","DNO.OL","DOF.OL","DOLP.OL","EAM.OL","ECHEM.OL","EKO.OL","EMGS.OL","ELT.OL","EMAS.OL","ENTRA.OL","EVRY.OL","FAR.OL","FLNG.OL"};
+*/
+
+      String[] stocks = new String[] {"AFG.OL", "AKA.OL", "AKER.OL", "AKERBP.OL", "AKSO.OL", "AKVA.OL", "AMSC.OL", "APP.OL", "AQUA.OL", "ARCHER.OL", "ARCUS.OL", "AFK.OL", "ASETEK.OL",
+              "ATEA.OL", "AURG.OL", "AUSS.OL", "AVANCE.OL", "AVM.OL", "AXA.OL", "B2H.OL", "BAKKA.OL", "BEL.OL", "BERGEN.OL", "BGBIO.OL", "BIOTEC.OL", "BON.OL", "BOR.OL", "BDRILL.OL",
+              "BRG.OL", "BOUVET.OL", "BWLPG.OL", "BWO.OL", "BMA.OL", "COV.OL", "CRAYON.OL", "CXENSE.OL", "DAT.OL", "DNB.OL", "DNO.OL", "DOF.OL", "EIOF.OL", "EKO.OL", "EMGS.OL", "ELE.OL",
+              "ENTRA.OL", "EPR.OL", "EVRY.OL", "FJORD.OL", "FLNG.OL", "FOE.OL", "FRO.OL", "FUNCOM.OL", "GIG.OL", "RISH.OL", "GJF.OL", "GOGL.OL", "GOD.OL", "GSF.OL", "GYL.OL", "HAVI.OL", "HYARD.OL", "HELG.OL", "HEX.OL", "HIDDN.OL", "HLNG.OL", "HSPG.OL", "IMSK.OL", "IDEX.OL", "INC.OL", "ISSG.OL", "INFRNT.OL", "INSR.OL", "IOX.OL", "ITE.OL", "JIN.OL", "JAEREN.OL", "KID.OL", "KIT.OL", "KOMP.OL", "KOA.OL", "KOG.OL", "KVAER.OL", "LSG.OL", "LINK.OL", "MHG.OL", "MEDI.OL", "MELG.OL", "MULTI.OL", "NAPA.OL", "NAVA.OL", "NEL.OL", "NEXT.OL", "NGT.OL", "NANO.OL", "NOD.OL", "NHY.OL", "NSG.OL", "NRS.OL", "NAS.OL", "NOR.OL", "NOFI.OL", "NPRO.OL", "NRC.OL", "NTS.OL", "OCY.OL", "OTS.OL", "ODL.OL", "ODF.OL", "ODFB.OL", "OLT.OL", "ORK.OL", "OTELLO.OL", "PEN.OL", "PARB.OL", "PGS.OL", "PDR.OL", "PHO.OL", "PLCS.OL", "POL.OL", "PRS.OL", "PROTCT.OL", "QFR.OL", "QEC.OL", "RAKP.OL", "REACH.OL", "REC.OL", "SDSD.OL", "SAFE.OL", "SALM.OL", "SADG.OL", "SBANK.OL", "SSO.OL", "SCHA.OL", "SCHB.OL", "SBX.OL", "SDRL.OL", "SSG.OL",
+              "SBO.OL",  "SEVAN.OL", "SIOFF.OL", "SKUE.OL", "SOLON.OL", "SOFF.OL", "SOLV.OL", "SONG.OL", "SBVG.OL", "NONG.OL",
+              "SNOR.OL", "RING.OL", "MING.OL", "SRBANK.OL", "SOAG.OL", "MORG.OL", "SOR.OL", "SVEG.OL", "SPOG.OL", "SPU.OL", "STL.OL", "SNI.OL", "STB.OL", "STORM.OL", "STRONG.OL", "SUBC.OL", "TRVX.OL", "TEAM.OL", "TECH.OL", "TEL.OL", "TGS.OL", "SSC.OL", "THIN.OL", "TOM.OL", "TOTG.OL", "TRE.OL", "TTS.OL", "VEI.OL", "VVL.OL", "WWL.OL", "WSTEP.OL", "WRL.OL", "WWI.OL", "WWIB.OL", "WILS.OL", "XXL.OL", "YAR.OL", "ZAL.OL"};
+
+
+
+
+//              "FOE.OL","FRO.OL","FUNCOM.OL","GRO.OL","GJF.OL","GOGL.OL","GOD.OL","GSF.OL","HNB.OL","HFISK.OL","HAVI.OL","HEX.OL","HBC.OL","HLNG.OL","IDEX.OL",
+//              "IOX.OL","ITX.OL","IMSK.OL","JIN.OL","KOA.OL","KOG.OL","KVAER.OL","LSG.OL","MHG.OL","NAPA.OL","NATTO.OL","NAVA.OL","NEL.OL","NEXT.OL","NMG.OL",
+//              "NIO.OL","NOM.OL","NOD.OL","NSG.OL","NHY.OL","NOF.OL","NRS.OL","NAS.OL","NOR.OL","NPRO.OL","NTS.OL","OCY.OL","ODL.OL","ODF.OL","ODFB.OL","OLT.OL",
+//              "OPERA.OL","ORK.OL","PEN.OL","PCIB.OL","PGS.OL","PDR.OL","PHO.OL","PLCS.OL","POL.OL","PRS.OL","PROS.OL","PROTCT.OL","PSI.OL","QFR.OL","QEC.OL","RAKP.OL",
+//              "REC.OL","RECSOL.OL","RENO.OL","REPANT.OL","RGT.OL","RCL.OL","SALM.OL","SCI.OL","SSHIP.OL","SSO.OL","SCH.OL",
+//              "SDRL.OL","SBO.OL","SENDEX.OL","SER.OL","SEVDR.OL","SEVAN.OL","SIOFF.OL","SKI.OL","SOFF.OL","SOLV.OL","SONG.OL","SRBANK.OL","SPU.OL","STL.OL","SNI.OL",
+//              "STB.OL","STORM.OL","SUBC.OL","TIL.OL","TEL.OL","TELIO.OL","TGS.OL","SSC.OL","THIN.OL","TOM.OL","TTS.OL","VARDIA.OL","VEI.OL","VIZ.OL","WEIFA.OL","WRL.OL",
+//              "WBULK.OL","WWASA.OL","WWI.OL","WWIB.OL","XXL.OL","YAR.OL","ZAL.OL","ZONC.OL"};
 
       List<Alert> newAlerts = new ArrayList<Alert>();
 
